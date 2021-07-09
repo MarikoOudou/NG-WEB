@@ -6,37 +6,37 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    <card cardTitle="Data Table">
+    <card [cardTitle]="nameTable">
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
-            <th>FIRSTNAME</th>
-            <th>LASTNAME</th>
-            <th>USERNAME</th>
-            <th>EMAIL</th>
-            <th>AGE</th>
-            <th>STATE</th>
-            <th>ACTIONS</th>
+            <th *ngFor="let item of column">{{ item }}</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of tableData | paginate: { id: 'pager', itemsPerPage: pageSize, currentPage: pageNumber};let index = index">
-            <td>{{item.firstName}}</td>
-            <td>{{item.lastName}}</td>
+          <tr
+            *ngFor="let item of tableData | paginate: { id: 'pager', itemsPerPage: pageSize, currentPage: pageNumber};let index = index">
+            <td>{{item.nom}}</td>
+            <td>{{item.prenom}}</td>
             <td>{{item.username}}</td>
+            <td>{{item.contact}}</td>
             <td>{{item.email}}</td>
-            <td>{{item.age}}</td>
             <td>
-              <span class="label label-info">info</span>
+              <div [class]="
+                            item.role == roles[0].code?'label-info':
+                            item.role == roles[1].code?'label-primary':
+                            item.role == roles[2].code?'label-success':
+                            item.role == roles[3].code?'label-warning':'label-default'" *ngFor="let role of roles">
+                {{(item.role == role.code ? role.title : '') | uppercase}}</div>
             </td>
             <td>
-              <button class="btn btn-icon btn-default" (click)="detail.open()">
+              <button class="btn btn-icon btn-default" (click)="openModal(detail, item)">
                 <i class="fa fa-eye fa-fw"></i>
               </button>
-              <button class="btn btn-icon btn-primary" (click)="modification.open()">
+              <button class="btn btn-icon btn-primary" (click)="openModal(modification, item)">
                 <i class="fa fa-pencil fa-fw"></i>
               </button>
-              <button class="btn btn-icon btn-danger" (click)="supprission.open()">
+              <button class="btn btn-icon btn-danger" (click)="openModal(supprission, item)">
                 <i class="fa fa-trash fa-fw"></i>
               </button>
             </td>
@@ -45,8 +45,9 @@
       </table>
       <form class="pagination-wrapper">
         <div class="form-group pages">
-          <pagination-controls class="my-pagination" id="pager" (pageChange)="pageChanged($event)" maxSize="9" directionLinks="true"
-            autoHide="true" previousLabel="Prev" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+          <pagination-controls class="my-pagination" id="pager" (pageChange)="pageChanged($event)" maxSize="9"
+            directionLinks="true" autoHide="true" previousLabel="Retour" nextLabel="Suivant"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
             screenReaderCurrentLabel="You're on page">
           </pagination-controls>
         </div>
@@ -61,7 +62,7 @@
               <option>100</option>
               <option>200</option>
             </select>
-            <span class="input-group-addon addon-right">Per Page</span>
+            <span class="input-group-addon addon-right">Line par page</span>
           </div>
         </div>
       </form>
@@ -72,60 +73,88 @@
 
 <modal #thirdModal [closeOnEscape]="false" [closeOnOutsideClick]="false">
   <modal-header>
-    <h3>modal that cannot be simply closed</h3>
+    <h3>CREATION DE COMPTE UTILISATEUR</h3>
   </modal-header>
+
   <modal-content>
 
-    <div class="form-group">
-      <label class="control-label">Text</label>
-      <input type="text" class="form-control" placeholder="Text Input">
-      <label class="control-label">Password</label>
-      <input type="password" class="form-control" placeholder="Password Input">
-      <label class="control-label">With Help</label>
-      <input type="text" class="form-control" placeholder="With Help">
-      <span class="help-block sub-little-text">A block of help text that breaks onto a new line and may extend beyond one line.</span>
-      <label class="control-label">Small Input</label>
-      <input type="text" class="form-control form-control-sm" placeholder="Small Input">
-      <label class="control-label">Large Input</label>
-      <input type="text" class="form-control form-control-lg" placeholder="Large Input">
-      <label class="control-label">Disabled</label>
-      <input type="text" class="form-control" placeholder="Disabled Input" disabled>
-      <label class="control-label">Readonly</label>
-      <input type="text" class="form-control" placeholder="Readonly Input" readonly>
-      <label class="control-label">Textarea</label>
-      <textarea cols="0" rows="10" class="form-control" placeholder="Textarea"></textarea>
-    </div>
+    <form #f="ngForm" (ngSubmit)="onSubmit(f, thirdModal)">
+
+      <div class="form-group">
+        <label class="control-label">Nom</label>
+        <input type="text" name="nom" ngModel class="form-control" placeholder="Nom">
+
+        <label class="control-label">Prénom (s)</label>
+        <input type="text" name="prenom" ngModel class="form-control" placeholder="Prénom (s)">
+
+        <label class="control-label">Contact</label>
+        <input type="text" name="contact" ngModel class="form-control" placeholder="Contact">
+
+        <label class="control-label">Rôle</label>
+        <select name="role" ngModel id="select1" class="form-control">
+          <option *ngFor="let item of roles" [value]="item.code">{{item.title | uppercase}}</option>
+        </select>
+
+        <label class="control-label">E-mail</label>
+        <input type="email" name="email" ngModel class="form-control" placeholder="E-mail">
+
+        <label class="control-label">Mot de passe</label>
+        <input type="password" name="password" ngModel class="form-control" placeholder="Mot de passe">
+
+      </div>
+
+      <div class="">
+
+        <button type="button" class="btn btn-default" (click)="closeModal(thirdModal)">Annuler</button>
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+      </div>
+
+    </form>
+
 
   </modal-content>
+
   <modal-footer>
-    <button class="btn btn-primary" (click)="closeModal(thirdModal)">close</button>
   </modal-footer>
+
 </modal>
 
 <modal #detail [closeOnEscape]="false" [closeOnOutsideClick]="false">
   <modal-header>
-    <h3>modal that cannot be simply closed</h3>
+    <h3>INFORMATION DE L'UTILISATEUR</h3>
   </modal-header>
   <modal-content>
 
     <div class="form-group">
-      <label class="control-label">Text</label>
-      <input type="text" class="form-control" placeholder="Text Input">
-      <label class="control-label">Password</label>
-      <input type="password" class="form-control" placeholder="Password Input">
-      <label class="control-label">With Help</label>
-      <input type="text" class="form-control" placeholder="With Help">
-      <span class="help-block sub-little-text">A block of help text that breaks onto a new line and may extend beyond one line.</span>
-      <label class="control-label">Small Input</label>
-      <input type="text" class="form-control form-control-sm" placeholder="Small Input">
-      <label class="control-label">Large Input</label>
-      <input type="text" class="form-control form-control-lg" placeholder="Large Input">
-      <label class="control-label">Disabled</label>
-      <input type="text" class="form-control" placeholder="Disabled Input" disabled>
-      <label class="control-label">Readonly</label>
-      <input type="text" class="form-control" placeholder="Readonly Input" readonly>
-      <label class="control-label">Textarea</label>
-      <textarea cols="0" rows="10" class="form-control" placeholder="Textarea"></textarea>
+      <label class="control-label">Nom</label>
+      <input type="text" name="nom" ngModel class="form-control" [placeholder]="utilisateur.nom" disabled>
+
+      <label class="control-label">Prénom (s)</label>
+      <input type="text" name="prenom" ngModel class="form-control" [placeholder]="utilisateur.prenom" disabled>
+
+      <label class="control-label">Contact</label>
+      <input type="text" name="contact" ngModel class="form-control" [placeholder]="utilisateur.contact" disabled>
+
+      <label class="control-label">Rôle</label>
+      <input type="text" name="contact" ngModel class="form-control"
+      [placeholder]="(utilisateur.role == roles[0].code?roles[0].title:
+                      utilisateur.role == roles[1].code?roles[1].title:
+                      utilisateur.role == roles[2].code?roles[2].title:
+                      utilisateur.role == roles[3].code?roles[3].title:'') | uppercase" disabled>
+
+      <!--<select name="role" ngModel id="select1" class="form-control" disabled>
+        <option [value]="utilisateur.role" selected>{{(utilisateur.role == roles[0].code?roles[0].title:
+                                              utilisateur.role == roles[1].code?roles[1].title:
+                                              utilisateur.role == roles[2].code?roles[2].title:
+                                              utilisateur.role == roles[3].code?roles[3].title:'') | uppercase}}</option>
+      </select>-->
+
+      <label class="control-label">E-mail</label>
+      <input type="email" name="email" ngModel class="form-control" [placeholder]="utilisateur.email" disabled>
+
+      <!--<label class="control-label">Mot de passe</label>
+      <input type="password" name="password" ngModel class="form-control" placeholder="Mot de passe">-->
+
     </div>
 
   </modal-content>
@@ -136,49 +165,61 @@
 
 <modal #modification [closeOnEscape]="false" [closeOnOutsideClick]="false">
   <modal-header>
-    <h3>modal that cannot be simply closed</h3>
+    <h3>MODIFICATION DES INFOS UTILISATEUR</h3>
   </modal-header>
   <modal-content>
 
-    <div class="form-group">
-      <label class="control-label">Text</label>
-      <input type="text" class="form-control" placeholder="Text Input">
-      <label class="control-label">Password</label>
-      <input type="password" class="form-control" placeholder="Password Input">
-      <label class="control-label">With Help</label>
-      <input type="text" class="form-control" placeholder="With Help">
-      <span class="help-block sub-little-text">A block of help text that breaks onto a new line and may extend beyond one line.</span>
-      <label class="control-label">Small Input</label>
-      <input type="text" class="form-control form-control-sm" placeholder="Small Input">
-      <label class="control-label">Large Input</label>
-      <input type="text" class="form-control form-control-lg" placeholder="Large Input">
-      <label class="control-label">Disabled</label>
-      <input type="text" class="form-control" placeholder="Disabled Input" disabled>
-      <label class="control-label">Readonly</label>
-      <input type="text" class="form-control" placeholder="Readonly Input" readonly>
-      <label class="control-label">Textarea</label>
-      <textarea cols="0" rows="10" class="form-control" placeholder="Textarea"></textarea>
-    </div>
+    <form #f="ngForm" (ngSubmit)="onSubmit(f, thirdModal)">
+
+      <div class="form-group">
+        <label class="control-label">Nom</label>
+        <input type="text" name="nom" class="form-control" [ngModel]="utilisateur.nom">
+
+        <label class="control-label">Prénom (s)</label>
+        <input type="text" name="prenom" class="form-control" [ngModel]="utilisateur.prenom">
+
+        <label class="control-label">Contact</label>
+        <input type="text" name="contact" class="form-control" [ngModel]="utilisateur.contact">
+
+        <label class="control-label">Rôle</label>
+        <select name="role" [ngModel]="utilisateur.role" id="select1" class="form-control">
+          <option *ngFor="let item of roles" [value]="item.code">{{item.title | uppercase}}</option>
+        </select>
+
+        <label class="control-label">E-mail</label>
+        <input type="email" name="email" class="form-control" [ngModel]="utilisateur.email">
+
+        <label class="control-label">Mot de passe</label>
+        <input type="password" name="text" ngModel class="form-control" placeholder="Mot de passe">
+
+      </div>
+
+      <div class="">
+
+        <button type="button" class="btn btn-default" (click)="closeModal(modification)">Annuler</button>
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+      </div>
+
+    </form>
 
   </modal-content>
-  <modal-footer>
-    <button class="btn btn-primary" (click)="closeModal(modification)">close</button>
-  </modal-footer>
 </modal>
 
 <modal #supprission [closeOnEscape]="false" [closeOnOutsideClick]="false">
   <modal-header>
-    <h3>modal that cannot be simply closed</h3>
+    <h3>SUPPRIMER UN TILISATEUR</h3>
   </modal-header>
   <modal-content>
 
-  <p>
-    Veniam consectetur proident ut reprehenderit dolore nostrud esse velit quis ea. Do amet magna enim labore mollit minim eu cillum commodo aute. Sunt cillum ipsum adipisicing adipisicing non mollit esse irure et. Velit sint proident laborum pariatur cillum velit et id. Aliqua excepteur mollit voluptate et quis irure adipisicing amet.
-
-  </p>
+    <h3>
+      Vous-voulez supprimer cet utilisateur ?
+    </h3>
 
   </modal-content>
   <modal-footer>
-    <button class="btn btn-primary" (click)="closeModal(supprission)">close</button>
+    <button class="btn btn-default" (click)="closeModal(supprission)">NON</button>
+    <button class="btn btn-primary" (click)="closeModal(supprission)">OUI</button>
   </modal-footer>
 </modal>
+
+<loading [loading]="loading"></loading>

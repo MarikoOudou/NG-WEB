@@ -7,6 +7,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
 import { ModalModule } from 'ngx-modal';
+import { LayoutModule } from '../../shared/layout.module';
 
 
 @NgModule({
@@ -16,9 +17,11 @@ import { ModalModule } from 'ngx-modal';
     UtilisateursRoutingModule,
     NgxPaginationModule,
     FormsModule,
-        ModalModule,
-        ReactiveFormsModule,
+    ModalModule,
+    ReactiveFormsModule,
     SharedModule,
+    LayoutModule,
+
 
   ]
 })

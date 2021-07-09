@@ -1,3 +1,4 @@
+import { Slider } from './../../../shared/models/slider';
 import { Component, OnInit } from '@angular/core';
 import swal from 'sweetalert2';
 
@@ -12,6 +13,14 @@ export class AccueilComponent implements OnInit {
   /* pagination Info */
   pageSize = 10;
   pageNumber = 1;
+
+  mes_slide: [Slider] = [
+    {
+      title: 'Card title',
+      contenu: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
+      url_img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(31).jpg'
+    }
+  ];
 
   constructor() { }
 

@@ -4,7 +4,7 @@ import { PagesComponent } from './pages/pages.component';
 const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'pages',
     pathMatch: 'full'
   },
   /*{

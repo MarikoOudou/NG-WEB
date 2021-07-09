@@ -1,5 +1,8 @@
+import { User } from './../../shared/models/users';
+import { Role } from './../../shared/constants/role';
 import { Component, OnInit } from '@angular/core';
 import swal from 'sweetalert2';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -10,10 +13,22 @@ import swal from 'sweetalert2';
 export class UtilisateursComponent implements OnInit {
 
   tableData: Array<any>;
-
+  nameTable: string = "Liste des utilisateurs";
   /* pagination Info */
   pageSize = 10;
+  loading: boolean = false;
   pageNumber = 1;
+  column : any = [
+    'Nom',
+    'Prénom (s)',
+    'Nom d\'utilisateur',
+    'contact',
+    'email',
+    'role',
+    'Actions',
+  ];
+  roles: any = Role;
+  utilisateur: any = {};
 
   constructor() { }
 
@@ -21,127 +36,135 @@ export class UtilisateursComponent implements OnInit {
     this.loadData();
   }
 
+  onSubmit(form: NgForm, thirdModal: any) {
+    this.loading = true;
+    console.log(form.value)
+    this.closeModal(thirdModal);
+    this.onCloseSuccess();
+  }
+
   loadData() {
     this.tableData = [
       {
           id: 1,
-          firstName: 'Mark',
-          lastName: 'Otto',
+          nom: 'Mark',
+          prenom: 'Otto',
           username: '@mdo',
           email: 'mdo@gmail.com',
-          age: '28'
+          role: 'user'
       },
       {
           id: 2,
-          firstName: 'Jacob',
-          lastName: 'Thornton',
+          nom: 'Jacob',
+          prenom: 'Thornton',
           username: '@fat',
+          contact: '@fat',
           email: 'fat@yandex.ru',
-          age: '45'
+          role: 'admin'
       },
       {
           id: 3,
-          firstName: 'Larry',
-          lastName: 'Bird',
+          nom: 'Larry',
+          prenom: 'Bird',
           username: '@twitter',
           email: 'twitter@outlook.com',
-          age: '18'
+          role: 'vendeur'
       },
       {
           id: 4,
-          firstName: 'John',
-          lastName: 'Snow',
+          nom: 'John',
+          prenom: 'Snow',
           username: '@snow',
           email: 'snow@gmail.com',
-          age: '20'
+          role: 'editeur'
       },
       {
           id: 5,
-          firstName: 'Jack',
-          lastName: 'Sparrow',
+          nom: 'Jack',
+          prenom: 'Sparrow',
           username: '@jack',
           email: 'jack@yandex.ru',
-          age: '30'
+          role: '30'
       },
       {
           id: 6,
-          firstName: 'Ann',
-          lastName: 'Smith',
+          nom: 'Ann',
+          prenom: 'Smith',
           username: '@ann',
           email: 'ann@gmail.com',
-          age: '21'
+          role: '21'
       },
       {
           id: 7,
-          firstName: 'Barbara',
-          lastName: 'Black',
+          nom: 'Barbara',
+          prenom: 'Black',
           username: '@barbara',
           email: 'barbara@yandex.ru',
-          age: '43'
+          role: '43'
       },
       {
           id: 8,
-          firstName: 'Sevan',
-          lastName: 'Bagrat',
+          nom: 'Sevan',
+          prenom: 'Bagrat',
           username: '@sevan',
           email: 'sevan@outlook.com',
-          age: '13'
+          role: '13'
       },
       {
           id: 9,
-          firstName: 'Ruben',
-          lastName: 'Vardan',
+          nom: 'Ruben',
+          prenom: 'Vardan',
           username: '@ruben',
           email: 'ruben@gmail.com',
-          age: '22'
+          role: '22'
       },
       {
           id: 10,
-          firstName: 'Karen',
-          lastName: 'Sevan',
+          nom: 'Karen',
+          prenom: 'Sevan',
           username: '@karen',
           email: 'karen@yandex.ru',
-          age: '33'
+          role: '33'
       },
       {
           id: 11,
-          firstName: 'Mark',
-          lastName: 'Otto',
+          nom: 'Mark',
+          prenom: 'Otto',
           username: '@mark',
           email: 'mark@gmail.com',
-          age: '38'
+          role: '38'
       },
       {
           id: 12,
-          firstName: 'Jacob',
-          lastName: 'Thornton',
+          nom: 'Jacob',
+          prenom: 'Thornton',
           username: '@jacob',
           email: 'jacob@yandex.ru',
-          age: '48'
+          role: '48'
       },
       {
           id: 13,
-          firstName: 'Haik',
-          lastName: 'Hakob',
+          nom: 'Haik',
+          prenom: 'Hakob',
           username: '@haik',
           email: 'haik@outlook.com',
-          age: '48'
+          role: '48'
       },
       {
           id: 14,
-          firstName: 'Garegin',
-          lastName: 'Jirair',
+          nom: 'Garegin',
+          prenom: 'Jirair',
           username: '@garegin',
           email: 'garegin@gmail.com',
-          age: '40'
+          role: '40'
       },
       {
           id: 15,
-          firstName: 'Krikor',
-          lastName: 'Bedros',
+          nom: 'Krikor',
+          prenom: 'Bedros',
           username: '@krikor',
           email: 'krikor@yandex.ru',
-          age: '32'
+          role: '32'
       }
   ];
   }
@@ -150,7 +173,8 @@ export class UtilisateursComponent implements OnInit {
     this.pageNumber = pN;
   }
 
-  openModal(modal) {
+  openModal(modal, data) {
+    this.utilisateur = data;
     modal.open();
   }
 
@@ -158,10 +182,18 @@ export class UtilisateursComponent implements OnInit {
     modal.close();
   }
 
-  onClose() {
+  onCloseSuccess() {
     swal({
       type: 'success',
       title: 'Success!',
+      text: 'close it!',
+    });
+  }
+
+  onCloseError() {
+    swal({
+      type: 'error',
+      title: 'Error!',
       text: 'close it!',
     });
   }
