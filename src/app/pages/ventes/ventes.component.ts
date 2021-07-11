@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { GetRequestService } from '../../shared/services/get-request.service';
+import { PostRequestService } from '../../shared/services/post-request.service';
 import swal from 'sweetalert2';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'ngx-ventes',
@@ -8,148 +11,88 @@ import swal from 'sweetalert2';
 })
 export class VentesComponent implements OnInit {
 
-  tableData: Array<any>;
+  tableData: any = [];
+  column : any = [
+    'Date de vente',
+    'Prix',
+    'Code produit',
 
+    'Actions',
+  ];
   /* pagination Info */
   pageSize = 10;
   pageNumber = 1;
+  showloading: boolean = true;
+  listProduit: any = [];
+  vente: any;
 
-  constructor() { }
+  constructor(
+    //private _chartsService: ChartsService,
+    private _servicesGet: GetRequestService,
+    private _servicesPost: PostRequestService) { }
+
 
   ngOnInit() {
-    this.loadData();
+    this.getData();
+    this.getProduit();
+
   }
 
-  loadData() {
-    this.tableData = [
-      {
-          id: 1,
-          firstName: 'Mark',
-          lastName: 'Otto',
-          username: '@mdo',
-          email: 'mdo@gmail.com',
-          age: '28'
-      },
-      {
-          id: 2,
-          firstName: 'Jacob',
-          lastName: 'Thornton',
-          username: '@fat',
-          email: 'fat@yandex.ru',
-          age: '45'
-      },
-      {
-          id: 3,
-          firstName: 'Larry',
-          lastName: 'Bird',
-          username: '@twitter',
-          email: 'twitter@outlook.com',
-          age: '18'
-      },
-      {
-          id: 4,
-          firstName: 'John',
-          lastName: 'Snow',
-          username: '@snow',
-          email: 'snow@gmail.com',
-          age: '20'
-      },
-      {
-          id: 5,
-          firstName: 'Jack',
-          lastName: 'Sparrow',
-          username: '@jack',
-          email: 'jack@yandex.ru',
-          age: '30'
-      },
-      {
-          id: 6,
-          firstName: 'Ann',
-          lastName: 'Smith',
-          username: '@ann',
-          email: 'ann@gmail.com',
-          age: '21'
-      },
-      {
-          id: 7,
-          firstName: 'Barbara',
-          lastName: 'Black',
-          username: '@barbara',
-          email: 'barbara@yandex.ru',
-          age: '43'
-      },
-      {
-          id: 8,
-          firstName: 'Sevan',
-          lastName: 'Bagrat',
-          username: '@sevan',
-          email: 'sevan@outlook.com',
-          age: '13'
-      },
-      {
-          id: 9,
-          firstName: 'Ruben',
-          lastName: 'Vardan',
-          username: '@ruben',
-          email: 'ruben@gmail.com',
-          age: '22'
-      },
-      {
-          id: 10,
-          firstName: 'Karen',
-          lastName: 'Sevan',
-          username: '@karen',
-          email: 'karen@yandex.ru',
-          age: '33'
-      },
-      {
-          id: 11,
-          firstName: 'Mark',
-          lastName: 'Otto',
-          username: '@mark',
-          email: 'mark@gmail.com',
-          age: '38'
-      },
-      {
-          id: 12,
-          firstName: 'Jacob',
-          lastName: 'Thornton',
-          username: '@jacob',
-          email: 'jacob@yandex.ru',
-          age: '48'
-      },
-      {
-          id: 13,
-          firstName: 'Haik',
-          lastName: 'Hakob',
-          username: '@haik',
-          email: 'haik@outlook.com',
-          age: '48'
-      },
-      {
-          id: 14,
-          firstName: 'Garegin',
-          lastName: 'Jirair',
-          username: '@garegin',
-          email: 'garegin@gmail.com',
-          age: '40'
-      },
-      {
-          id: 15,
-          firstName: 'Krikor',
-          lastName: 'Bedros',
-          username: '@krikor',
-          email: 'krikor@yandex.ru',
-          age: '32'
-      }
-  ];
+  onSubmit(form: NgForm, thirdModal: any) {
+    let date_jour = this.getDay();
+    this.showloading = true;
+    console.log(form.value)
+    this.closeModal(thirdModal);
+    this.onCloseSuccess();
   }
+
+  getDay() {
+    var today: any = new Date(Date.now());
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = yyyy + '/' + mm + '/' + dd;
+    // console.log(today)
+    return today;
+  }
+
+  getData() {
+    this._servicesGet.getRequest('ventes').subscribe(
+      {
+        next: (x: any) => {
+
+            this.tableData = x.datas;
+            this.showloading = false;
+
+        },
+        error: x => console.error(x)
+      }
+    );
+  }
+
+  getProduit() {
+    this._servicesGet.getRequest('produits').subscribe(
+      {
+        next: (x: any) => {
+
+            this.listProduit = x.datas;
+            this.showloading = false;
+
+        },
+        error: x => console.error(x)
+      }
+    );
+  }
+
 
   pageChanged(pN: number): void {
     this.pageNumber = pN;
   }
 
-  openModal(modal) {
+  openModal(modal, data) {
+    this.vente = data;
+    console.log(data)
     modal.open();
   }
 
@@ -157,10 +100,18 @@ export class VentesComponent implements OnInit {
     modal.close();
   }
 
-  onClose() {
+  onCloseSuccess() {
     swal({
       type: 'success',
       title: 'Success!',
+      text: 'close it!',
+    });
+  }
+
+  onCloseError() {
+    swal({
+      type: 'error',
+      title: 'Error!',
       text: 'close it!',
     });
   }

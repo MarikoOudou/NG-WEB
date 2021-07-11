@@ -2,15 +2,16 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry, tap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GetRequestService {
 
-  url: string = "";
+  private url = environment.url_serveur;
 
-  options: {
+  private options: {
     headers?: HttpHeaders | {[header: string]: string | string[]},
     observe?: 'body' | 'events' | 'response',
     params?: HttpParams|{[param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>},
@@ -24,8 +25,7 @@ export class GetRequestService {
   getRequest(data): Observable<any[]> {
     return this.http.get<any[]>(this.url+ data)
     .pipe(
-      tap(data => console.log('datas :', data)),
-      catchError(this.handleError)
+      tap(data => console.log('datas :', data))
     );
   }
 

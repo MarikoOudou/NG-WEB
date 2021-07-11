@@ -2,13 +2,14 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry, tap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostRequestService {
 
-  url: string = "";
+  private url = environment.url_serveur;
 
   constructor(private http: HttpClient) { }
 
@@ -16,12 +17,11 @@ export class PostRequestService {
 
     return this.http.post<any[]>(this.url + dataClass, data)
     .pipe(
-      tap(data => console.log('datas :', data)),
-      catchError(x => this.handleError(x))
+      tap(data => console.log('datas :', data))
     );
   }
 
-  
+
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.

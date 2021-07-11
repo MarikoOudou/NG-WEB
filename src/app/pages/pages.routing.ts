@@ -15,6 +15,7 @@ export const childRoutes: Routes = [
             { path: 'index', loadChildren: './index/index.module#IndexModule' },
             { path: 'utilisateurs', loadChildren: './utilisateurs/utilisateurs.module#UtilisateursModule' },
             { path: 'mes-pages', loadChildren: './mes-pages/mes-pages.module#MesPagesModule' },
+            { path: 'blogs', loadChildren: './blogs/blogs.module#BlogsModule' },
             { path: 'produits', loadChildren: './produits/produits.module#ProduitsModule' },
             { path: 'ventes', loadChildren: './ventes/ventes.module#VentesModule' },
 

@@ -1,21 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { MesPagesRoutingModule } from './mes-pages-routing.module';
-import { MesPagesComponent } from './mes-pages.component';
+import { BlogsRoutingModule } from './blogs-routing.module';
+import { BlogsComponent } from './blogs.component';
+import { CategoryComponent } from './category/category.component';
+import { ArticleComponent } from './article/article.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AccueilComponent } from './accueil/accueil.component';
-import { EquipeComponent } from './equipe/equipe.component';
 import { ModalModule } from 'ngx-modal';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SharedModule } from '../../shared/shared.module';
 
 
 @NgModule({
-  declarations: [MesPagesComponent, AccueilComponent, EquipeComponent],
+  declarations: [BlogsComponent, CategoryComponent, ArticleComponent],
   imports: [
     CommonModule,
-    MesPagesRoutingModule,
+    BlogsRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     NgxPaginationModule,
@@ -23,4 +23,4 @@ import { SharedModule } from '../../shared/shared.module';
     SharedModule,
   ]
 })
-export class MesPagesModule { }
+export class BlogsModule { }

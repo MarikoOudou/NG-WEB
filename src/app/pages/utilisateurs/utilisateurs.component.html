@@ -16,10 +16,7 @@
         <tbody>
           <tr
             *ngFor="let item of tableData | paginate: { id: 'pager', itemsPerPage: pageSize, currentPage: pageNumber};let index = index">
-            <td>{{item.nom}}</td>
-            <td>{{item.prenom}}</td>
-            <td>{{item.username}}</td>
-            <td>{{item.contact}}</td>
+            <td>{{item.name}}</td>
             <td>{{item.email}}</td>
             <td>
               <div [class]="
@@ -53,7 +50,7 @@
         </div>
         <div class="form-group options pages">
           <div class="input-group input-group-sm">
-            <select class="form-control" name="pageChangedName" [(ngModel)]="pageSize" (ngModelChange)="loadData()">
+            <select class="form-control" name="pageChangedName" [(ngModel)]="pageSize" (ngModelChange)="getData()">
               <option>1</option>
               <option>5</option>
               <option>10</option>
@@ -81,14 +78,8 @@
     <form #f="ngForm" (ngSubmit)="onSubmit(f, thirdModal)">
 
       <div class="form-group">
-        <label class="control-label">Nom</label>
-        <input type="text" name="nom" ngModel class="form-control" placeholder="Nom">
-
-        <label class="control-label">Prénom (s)</label>
-        <input type="text" name="prenom" ngModel class="form-control" placeholder="Prénom (s)">
-
-        <label class="control-label">Contact</label>
-        <input type="text" name="contact" ngModel class="form-control" placeholder="Contact">
+        <label class="control-label">Nom Complet</label>
+        <input type="text" name="name" ngModel class="form-control" placeholder="Nom et prénom (s)">
 
         <label class="control-label">Rôle</label>
         <select name="role" ngModel id="select1" class="form-control">
@@ -126,14 +117,8 @@
   <modal-content>
 
     <div class="form-group">
-      <label class="control-label">Nom</label>
-      <input type="text" name="nom" ngModel class="form-control" [placeholder]="utilisateur.nom" disabled>
-
-      <label class="control-label">Prénom (s)</label>
-      <input type="text" name="prenom" ngModel class="form-control" [placeholder]="utilisateur.prenom" disabled>
-
-      <label class="control-label">Contact</label>
-      <input type="text" name="contact" ngModel class="form-control" [placeholder]="utilisateur.contact" disabled>
+      <label class="control-label">Nom Complet</label>
+      <input type="text" name="name" ngModel class="form-control" [placeholder]="utilisateur.name" disabled>
 
       <label class="control-label">Rôle</label>
       <input type="text" name="contact" ngModel class="form-control"
@@ -172,14 +157,8 @@
     <form #f="ngForm" (ngSubmit)="onSubmit(f, thirdModal)">
 
       <div class="form-group">
-        <label class="control-label">Nom</label>
-        <input type="text" name="nom" class="form-control" [ngModel]="utilisateur.nom">
-
-        <label class="control-label">Prénom (s)</label>
-        <input type="text" name="prenom" class="form-control" [ngModel]="utilisateur.prenom">
-
-        <label class="control-label">Contact</label>
-        <input type="text" name="contact" class="form-control" [ngModel]="utilisateur.contact">
+        <label class="control-label">Nom Complet</label>
+        <input type="text" name="name" class="form-control" [ngModel]="utilisateur.name">
 
         <label class="control-label">Rôle</label>
         <select name="role" [ngModel]="utilisateur.role" id="select1" class="form-control">
@@ -207,7 +186,7 @@
 
 <modal #supprission [closeOnEscape]="false" [closeOnOutsideClick]="false">
   <modal-header>
-    <h3>SUPPRIMER UN TILISATEUR</h3>
+    <h3>SUPPRIMER UN UTILISATEUR</h3>
   </modal-header>
   <modal-content>
 

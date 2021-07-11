@@ -3,6 +3,8 @@ import { Role } from './../../shared/constants/role';
 import { Component, OnInit } from '@angular/core';
 import swal from 'sweetalert2';
 import { NgForm } from '@angular/forms';
+import { GetRequestService } from '../../shared/services/get-request.service';
+import { PostRequestService } from '../../shared/services/post-request.service';
 
 
 @Component({
@@ -19,10 +21,7 @@ export class UtilisateursComponent implements OnInit {
   loading: boolean = false;
   pageNumber = 1;
   column : any = [
-    'Nom',
-    'Prénom (s)',
-    'Nom d\'utilisateur',
-    'contact',
+    'Nom complet',
     'email',
     'role',
     'Actions',
@@ -30,11 +29,31 @@ export class UtilisateursComponent implements OnInit {
   roles: any = Role;
   utilisateur: any = {};
 
-  constructor() { }
+  constructor(
+    //private _chartsService: ChartsService,
+    private _servicesGet: GetRequestService,
+    private _servicesPost: PostRequestService) { }
+
 
   ngOnInit() {
-    this.loadData();
+    this.getData();
+
   }
+
+  getData() {
+    this._servicesGet.getRequest('users').subscribe(
+      {
+        next: (x: any) => {
+
+            this.tableData = x.datas;
+            this.loading = false;
+
+        },
+        error: x => console.error(x)
+      }
+    );
+  }
+
 
   onSubmit(form: NgForm, thirdModal: any) {
     this.loading = true;

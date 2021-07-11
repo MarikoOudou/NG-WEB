@@ -5,10 +5,35 @@ export let MENU_ITEM = [
         icon: 'dashboard'
     },
 
+
     {
-      path: 'utilisateurs',
-      title: 'Utilisateurs',
-      icon: 'users'
+      path: 'profile',
+      title: 'Profil',
+      icon: 'user'
+    },
+
+    {
+      path: 'ventes',
+      title: 'Ventes',
+      icon: 'cart-plus'
+    },
+
+
+
+  {
+    path: 'blogs',
+    title: 'Blog',
+    icon: 'cogs',
+    children: [
+        {
+            path: 'category',
+            title: 'Catégories'
+        },
+        {
+            path: 'article',
+            title: 'Articles'
+        },
+    ]
   },
 
 {
@@ -21,10 +46,6 @@ export let MENU_ITEM = [
           title: 'Accueil'
       },
       {
-          path: 'blog',
-          title: 'Blog'
-      },
-      {
         path: 'equipe',
         title: 'Equipe'
     },
@@ -35,7 +56,7 @@ export let MENU_ITEM = [
   path: 'produits',
   title: 'Produits',
   icon: 'cogs',
-  children: [
+  /*children: [
       {
           path: 'maisons',
           title: 'Maisons'
@@ -44,28 +65,25 @@ export let MENU_ITEM = [
           path: 'terrains',
           title: 'Terrains'
       },
-  ]
+  ]*/
 },
 
 {
-  path: 'ventes',
-  title: 'Ventes',
-  icon: 'cart-plus'
+  path: 'utilisateurs',
+  title: 'Utilisateurs',
+  icon: 'users'
 },
 
 
 
 
-
-
-
+/*
 
 {
   path: '',
   title: '---------------------------------------------------------------------',
   icon: ''
 },
-    /********************************************* */
     {
         path: 'editor',
         title: 'Pell Editor',
@@ -114,10 +132,7 @@ export let MENU_ITEM = [
                 path: 'progress-bar',
                 title: 'ProgressBar'
             },
-            /*  {
-                 path: 'loading',
-                 title: 'Loading'
-             }, */
+
         ]
     },
     {
@@ -189,5 +204,5 @@ export let MENU_ITEM = [
                 title: 'Menu Level2'
             }
         ]
-    },
+    },*/
 ];

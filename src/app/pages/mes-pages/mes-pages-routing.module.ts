@@ -1,5 +1,4 @@
 import { EquipeComponent } from './equipe/equipe.component';
-import { BlogsComponent } from './blogs/blogs.component';
 import { AccueilComponent } from './accueil/accueil.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -17,10 +16,6 @@ const routes: Routes = [{
     },
 
     {
-      path: 'blog',
-      component: BlogsComponent,
-    },
-    {
       path: 'equipe',
       component: EquipeComponent,
     },
@@ -31,25 +26,6 @@ const routes: Routes = [{
       pathMatch: 'full',
     },
 
-    /*{
-      path: 'tabs',
-      component: TabsComponent,
-      children: [
-        {
-          path: '',
-          redirectTo: 'tab1',
-          pathMatch: 'full',
-        },
-        {
-          path: 'tab1',
-          component: Tab1Component,
-        },
-        {
-          path: 'tab2',
-          component: Tab2Component,
-        },
-      ],
-    },*/
   ],
 
 }];

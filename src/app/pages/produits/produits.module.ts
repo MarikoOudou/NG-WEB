@@ -1,3 +1,4 @@
+import { LayoutModule } from './../../shared/layout.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -18,9 +19,10 @@ import { SharedModule } from '../../shared/shared.module';
     ProduitsRoutingModule,
     NgxPaginationModule,
     FormsModule,
-        ModalModule,
-        ReactiveFormsModule,
+    ModalModule,
+    ReactiveFormsModule,
     SharedModule,
+    LayoutModule,
   ]
 })
 export class ProduitsModule { }

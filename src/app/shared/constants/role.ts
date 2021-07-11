@@ -9,10 +9,10 @@ export const Role = [
     },
     {
         title: 'vendeur',
-        code: 'vendeur'
+        code: 'seller'
     },
     {
         title: 'editeur',
-        code: 'editeur'
+        code: 'editor'
     },
 ]

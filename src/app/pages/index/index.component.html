@@ -1,27 +1,27 @@
 <div class="row">
-  <div class="col-md-3 animated fadeIn">
+  <div class="col-md-6 animated fadeIn">
     <div class="card card-block tip-card">
       <div class="tip-msg">
-        <h3>Users</h3>
-        <span>118 / 251</span>
+        <h2>Total de la vente du jour</h2>
+        <h3 style="font: bold;">{{dataState.somme_vente_jour}}</h3>
       </div>
       <button class="tip-ico tip-ico-primary">
         <i class="fa fa-group fa-fw"></i>
       </button>
     </div>
   </div>
-  <div class="col-md-3 animated fadeIn">
+  <div class="col-md-6 animated fadeIn">
     <div class="card card-block tip-card">
       <div class="tip-msg">
-        <h3>Messages</h3>
-        <span>2 messages</span>
+        <h2>Total des produits disponible </h2>
+        <h3 style="font: bold;">{{dataState.nb_produit}}</h3>
       </div>
       <button class="tip-ico tip-ico-info">
         <i class="fa fa-comments fa-fw"></i>
       </button>
     </div>
   </div>
-  <div class="col-md-3 animated fadeIn">
+   <!-- <div class="col-md-6 animated fadeIn">
     <div class="card card-block tip-card">
       <div class="tip-msg">
         <h3>Mails</h3>
@@ -32,7 +32,7 @@
       </button>
     </div>
   </div>
-  <div class="col-md-3 animated fadeIn">
+  <div class="col-md-6 animated fadeIn">
     <div class="card card-block tip-card">
       <div class="tip-msg">
         <h3>Feedback</h3>
@@ -43,7 +43,7 @@
       </button>
     </div>
   </div>
-  <div class="col-md-8">
+<div class="col-md-8">
     <card cardTitle='Bar Chart' isCollapse="true">
       <div echarts [options]="AnimationBarOption" [loading]="showloading" theme="dark"></div>
     </card>
@@ -62,5 +62,6 @@
     <card>
       <weather></weather>
     </card>
-  </div>
+  </div>-->
 </div>
+<loading [loading]="showloading"></loading>
