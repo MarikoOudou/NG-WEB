@@ -1,4 +1,4 @@
-<form #f="ngForm" (ngSubmit)="onSubmit(f)">
+<form #f="ngForm" (ngSubmit)="onSubmitUpdate(f)">
 
   <div class="form-group">
 
@@ -25,51 +25,51 @@
         <card cardTitle="ajout d' articles">
           <div class="col-md-6 form-group">
             <label class="control-label">Titre</label>
-            <input type="text" name="title" [ngModel]="article.title" class="form-control" placeholder="Titre article" required>
+            <input type="text" name="title" [ngModel]="article?.title" class="form-control" placeholder="Titre article" required>
           </div>
 
           <div class="col-md-6 form-group">
             <label class="control-label">Slug</label>
-            <input type="text" name="slug" [ngModel]="article.slug" class="form-control" placeholder="Slug" required>
+            <input type="text" name="slug" [ngModel]="article?.slug" class="form-control" placeholder="Slug" required>
           </div>
 
           <div class="col-md-6 form-group">
             <label class="control-label">Seo Titre</label>
-            <input type="text" name="seo_title" [ngModel]="article.seo_title" class="form-control" placeholder="Seo Titre" required>
+            <input type="text" name="seo_title" [ngModel]="article?.seo_title" class="form-control" placeholder="Seo Titre" required>
           </div>
 
           <div class="col-md-6 form-group">
             <label class="control-label">Resumé</label>
-            <input type="text" name="excerpt" [ngModel]="article.excerpt" class="form-control" placeholder="Resumé" required>
+            <input type="text" name="excerpt" [ngModel]="article?.excerpt" class="form-control" placeholder="Resumé" required>
           </div>
 
 
           <div class="col-md-6 form-group">
             <label class="control-label">Meta description</label>
-            <input type="text" name="meta_description" [ngModel]="article.meta_description" class="form-control" placeholder="Meta description"
+            <input type="text" name="meta_description" [ngModel]="article?.meta_description" class="form-control" placeholder="Meta description"
               required>
             </div>
 
             <div class="col-md-6 form-group">
               <label class="control-label">Mot-clé</label>
-              <input type="text" name="meta_keywords" [ngModel]="article.meta_keywords" class="form-control" placeholder="Mot-clé" required>
+              <input type="text" name="meta_keywords" [ngModel]="article?.meta_keywords" class="form-control" placeholder="Mot-clé" required>
              </div>
 
              <div class="col-md-6 form-group">
               <label class="control-label">Catégorie</label>
-              <select name="category_id" [ngModel]="article.category_id" class="form-control" required>
+              <select name="category_id" [ngModel]="article?.category_id" class="form-control" required>
                 <option *ngFor="let item of categories" [value]="item.id">{{item.title}}</option>
               </select>
              </div>
 
              <div class="col-md-6 form-group">
-                  <input class="checkbox" [ngModel]="article.active" name="active" type="checkbox" id="color-checkbox1" checked>
+                  <input class="checkbox" [ngModel]="article?.active" name="active" type="checkbox" id="color-checkbox1" checked>
                   <label class="check-label" for="color-checkbox1">Active</label>
              </div>
 
              <div class="col-md-12 form-group">
               <label class="control-label">Contenu</label>
-              <textarea name="body" [ngModel]="article.body" class="form-control" placeholder="Contenu"  cols="30" rows="10" required>
+              <textarea name="body" [ngModel]="article?.body" class="form-control" placeholder="Contenu"  cols="30" rows="10" required>
 
               </textarea>
             </div>
@@ -86,3 +86,5 @@
     </div>
   </div>
 </form>
+
+<loading [loading]="showloading"></loading>

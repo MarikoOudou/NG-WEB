@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { GetRequestService } from '../../../shared/services/get-request.service';
 import { PostRequestService } from '../../../shared/services/post-request.service';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-article-update',
@@ -52,11 +53,16 @@ export class ArticleUpdateComponent implements OnInit {
     );
   }
 
+  getUser() {
+    return 1;
+  }
+
   onSubmit(form: NgForm, thirdModal: any) {
     let date_jour = this.getDay();
     this.showloading = true;
     console.log(form.value)
     let data = form.value;
+    data.user_id = this.getUser();
     this._servicesPost.postRequest(data, "category").subscribe(
       {
         next: (x: any)=> {
@@ -64,11 +70,11 @@ export class ArticleUpdateComponent implements OnInit {
             console.log(x)
             this.showloading = false;
           // this.getData();
-          this.closeModal(thirdModal);
+          // this.closeModal(thirdModal);
             this.onCloseSuccess();
           }else {
             console.log(x)
-            this.closeModal(thirdModal);
+            // this.closeModal(thirdModal);
             this.showloading = false;
             this.onCloseError();
 
@@ -78,22 +84,29 @@ export class ArticleUpdateComponent implements OnInit {
     )
 
   }
-  closeModal(thirdModal: any) {
-    throw new Error('Method not implemented.');
-  }
   onCloseSuccess() {
-    throw new Error('Method not implemented.');
-  }
-  onCloseError() {
-    throw new Error('Method not implemented.');
+    swal({
+      type: 'success',
+      title: 'Success!',
+      text: 'close it!',
+    });
   }
 
-  onSubmitUpdate(form: NgForm, thirdModal: any){
+  onCloseError() {
+    swal({
+      type: 'error',
+      title: 'Error!',
+      text: 'close it!',
+    });
+  }
+  onSubmitUpdate(form: NgForm){
     let date_jour = this.getDay();
     this.showloading = true;
     console.log(form.value)
 
     let data = form.value;
+    data.user_id = this.getUser();
+    data.image = this.urls[0]
     this._servicesPost.putRequest(data, "post/" + this.article.id).subscribe(
       {
         next: (x: any)=> {
@@ -101,11 +114,10 @@ export class ArticleUpdateComponent implements OnInit {
             console.log(x)
             this.showloading = false;
           //this.getData();
-          this.closeModal(thirdModal);
             this.onCloseSuccess();
+            // this.router.navigate(['./article'])
           }else {
             console.log(x)
-            this.closeModal(thirdModal);
             this.showloading = false;
             this.onCloseError();
 
@@ -146,7 +158,8 @@ export class ArticleUpdateComponent implements OnInit {
         next: (x: any) => {
 
             this.article = x.datas;
-            this.urls[0] = x.datas.ilage
+            console.log(x.datas)
+            this.urls[0] = x.datas.image
             this.showloading = false;
 
         },
