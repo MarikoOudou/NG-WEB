@@ -1,0 +1,88 @@
+<form #f="ngForm" (ngSubmit)="onSubmit(f)">
+
+  <div class="form-group">
+
+    <div class="row">
+      <div class="col-md-3">
+        <card cardTitle="Image">
+          <div class="col-md-12 form-group">
+
+            <div class="m-auto">
+              <div *ngIf="urls && urls.length > 0" style="display: block;text-align: center;">
+                <img *ngFor="let url of urls" [src]="url" style="max-width: 250px; max-height: 250px;" alt="">
+              </div>
+
+              <label class="control-label">Image</label>
+              <input class="form-control mt-2" accept="image/x-png,image/gif,image/jpeg,image/jpg" type="file"
+                name="image" (change)="onSelectFile($event, f)" ngModel required>
+            </div>
+
+          </div>
+        </card>
+      </div>
+      <div class="col-md-9">
+
+        <card cardTitle="ajout d' articles">
+          <div class="col-md-6 form-group">
+            <label class="control-label">Titre</label>
+            <input type="text" name="title" [ngModel]="article.title" class="form-control" placeholder="Titre article" required>
+          </div>
+
+          <div class="col-md-6 form-group">
+            <label class="control-label">Slug</label>
+            <input type="text" name="slug" [ngModel]="article.slug" class="form-control" placeholder="Slug" required>
+          </div>
+
+          <div class="col-md-6 form-group">
+            <label class="control-label">Seo Titre</label>
+            <input type="text" name="seo_title" [ngModel]="article.seo_title" class="form-control" placeholder="Seo Titre" required>
+          </div>
+
+          <div class="col-md-6 form-group">
+            <label class="control-label">Resumé</label>
+            <input type="text" name="excerpt" [ngModel]="article.excerpt" class="form-control" placeholder="Resumé" required>
+          </div>
+
+
+          <div class="col-md-6 form-group">
+            <label class="control-label">Meta description</label>
+            <input type="text" name="meta_description" [ngModel]="article.meta_description" class="form-control" placeholder="Meta description"
+              required>
+            </div>
+
+            <div class="col-md-6 form-group">
+              <label class="control-label">Mot-clé</label>
+              <input type="text" name="meta_keywords" [ngModel]="article.meta_keywords" class="form-control" placeholder="Mot-clé" required>
+             </div>
+
+             <div class="col-md-6 form-group">
+              <label class="control-label">Catégorie</label>
+              <select name="category_id" [ngModel]="article.category_id" class="form-control" required>
+                <option *ngFor="let item of categories" [value]="item.id">{{item.title}}</option>
+              </select>
+             </div>
+
+             <div class="col-md-6 form-group">
+                  <input class="checkbox" [ngModel]="article.active" name="active" type="checkbox" id="color-checkbox1" checked>
+                  <label class="check-label" for="color-checkbox1">Active</label>
+             </div>
+
+             <div class="col-md-12 form-group">
+              <label class="control-label">Contenu</label>
+              <textarea name="body" [ngModel]="article.body" class="form-control" placeholder="Contenu"  cols="30" rows="10" required>
+
+              </textarea>
+            </div>
+
+          <!--<div class="col-md-12 form-group">
+            <label class="control-label">Description</label>
+            <textarea class="form-control" name="description" ngModel placeholder="Description"></textarea>
+          </div>-->
+        </card>
+      </div>
+      <div class="col-md-12 text-center">
+        <button type="submit" class="btn btn-lg btn-success">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+</form>

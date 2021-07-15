@@ -9,6 +9,7 @@ import { EquipeComponent } from './equipe/equipe.component';
 import { ModalModule } from 'ngx-modal';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SharedModule } from '../../shared/shared.module';
+import { LayoutModule } from '../../shared/layout.module';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { SharedModule } from '../../shared/shared.module';
     NgxPaginationModule,
     ModalModule,
     SharedModule,
+    LayoutModule
   ]
 })
 export class MesPagesModule { }

@@ -17,7 +17,7 @@ export class ProduitsComponent implements OnInit {
   nameTable: string = "Liste des produits";
   /* pagination Info */
   pageSize = 10;
-  loading: boolean = false;
+  loading: boolean = true;
   ajouter_produit: boolean =  false;
   pageNumber = 1;
   column : any = [
@@ -41,7 +41,7 @@ export class ProduitsComponent implements OnInit {
 
   ngOnInit() {
     this.getData();
-    document.getElementById('text-output').innerHTML = this.defaultContent;
+    // document.getElementById('text-output').innerHTML = this.defaultContent;
 
   }
 

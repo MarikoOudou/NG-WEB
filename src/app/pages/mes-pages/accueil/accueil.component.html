@@ -1,205 +1,92 @@
 <div class="col-md-12">
+
   <div class="btn-wrap division">
-    <button type="button" class="btn btn-success btn-with-icon">
+    <button type="button" (click)="openModal(modalSlider, {})" class="btn btn-success btn-with-icon">
       <i class="fa fa-plus fa-fw"></i>Ajouter</button>
     <!--<button class="btn btn-primary" (click)="thirdModal.open()">modal that cannot be simply closed</button>-->
-  
+
+    <modal #modalSlider [closeOnEscape]="false" [closeOnOutsideClick]="false">
+      <modal-header>
+        <h3>Ajouter slider</h3>
+      </modal-header>
+      <modal-content>
+
+        <form #f="ngForm" (ngSubmit)="onSubmitSlider(f, modalSlider)">
+
+          <div class="form-group">
+
+            <div class="m-auto">
+              <div *ngIf="urls && urls.length > 0" style="display: block;text-align: center;">
+                <img *ngFor="let url of urls" [src]="url" style="max-width: 250px; max-height: 250px;" alt="">
+              </div>
+
+              <label class="control-label">Image du slider</label>
+              <input class="form-control mt-2" accept="image/x-png,image/gif,image/jpeg,image/jpg" type="file"
+                name="image" (change)="onSelectFile($event, f)" ngModel required>
+            </div>
+
+            <label class="control-label">Title</label>
+            <input type="text" name="title" [ngModel]="dataUpdate?.title" class="form-control" placeholder="" required>
+
+            <label class="control-label">Contenu du slider</label>
+            <input type="text" name="contenu" [ngModel]="dataUpdate?.contenu" class="form-control" placeholder=""
+              required>
+
+
+          </div>
+
+          <div class="">
+
+            <button type="button" class="btn btn-default" (click)="closeModal(modalSlider)">Annuler</button>
+            <button type="submit" class="btn btn-success">Enregistrer</button>
+          </div>
+
+        </form>
+
+      </modal-content>
+    </modal>
+
+
+    <modal #supprission [closeOnEscape]="false" [closeOnOutsideClick]="false">
+      <modal-header>
+        <h3>SUPPRESSION</h3>
+      </modal-header>
+      <modal-content>
+
+        <p>
+          Voulez-vous supprimer le slide ?
+        </p>
+
+      </modal-content>
+      <modal-footer>
+        <button class="btn btn-primary" (click)="closeModal(supprission)">NON</button>
+        <button class="btn btn-danger" (click)="onSubmitDeletSlider(supprission)">OUI</button>
+      </modal-footer>
+    </modal>
+
   </div>
 
   <card cardTitle='Slides'>
 
-    <div>
-            <!-- Controls -->
-      <button class="btn btn-primary" href="#carousel-example-generic" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </button>
-      <button class="btn btn-primary" href="#carousel-example-generic" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </button>
-    </div>
-
-    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-
-      <!-- Wrapper for slides -->
-      <div class="carousel-inner" role="listbox">
-        <div class="item active">
-
-
-          <div class="row">
-
-            <div class="col-md-4">
-              <card>
-                <div class="mb-2">
-                  <img class="img-thumbnail"
-                    src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(31).jpg"
-                    alt="Card image cap">
-                  <div class="card-body">
-                    <h4 class="card-title">Card title</h4>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                      card's content.</p>
-                    <a class="btn btn-primary">Button</a>
-                  </div>
-                </div>
-              </card>
-
-
-            </div>
-
-            <div class="col-md-4">
-              <card>
-                <div class="">
-                  <img class="img-thumbnail"
-                    src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(14).jpg"
-                    alt="Card image cap">
-                  <div class="card-body">
-                    <h4 class="card-title">Card title</h4>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                      card's content.</p>
-                    <a class="btn btn-primary">Button</a>
-                  </div>
-                </div>
-              </card>
-
-
-            </div>
-
-            <div class="col-md-4">
-              <card>
-                <div class="mb-2">
-                  <img class="img-thumbnail"
-                    src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg"
-                    alt="Card image cap">
-                  <div class="card-body">
-                    <h4 class="card-title">Card title</h4>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                      card's content.</p>
-                    <a class="btn btn-primary">Button</a>
-                  </div>
-                </div>
-              </card>
-
-
-            </div>
-
-
-          </div>
-
-        </div>
-
-        <div class="item">
-
-
-          <div class="row">
-
-            <div class="col-md-4">
-              <card>
-                <div class="mb-2">
-                  <img class="img-thumbnail"
-                    src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(21).jpg"
-                    alt="Card image cap">
-                  <div class="card-body">
-                    <h4 class="card-title">Card title</h4>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                      card's content.</p>
-                    <a class="btn btn-primary">Button</a>
-                  </div>
-                </div>
-              </card>
-
-
-            </div>
-
-            <div class="col-md-4">
-              <card>
-                <div class="">
-                  <img class="img-thumbnail"
-                    src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(11).jpg"
-                    alt="Card image cap">
-                  <div class="card-body">
-                    <h4 class="card-title">Card title</h4>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                      card's content.</p>
-                    <a class="btn btn-primary">Button</a>
-                  </div>
-                </div>
-              </card>
-
-
-            </div>
-
-            <div class="col-md-4">
-              <card>
-                <div class="mb-2">
-                  <img class="img-thumbnail"
-                    src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(54).jpg"
-                    alt="Card image cap">
-                  <div class="card-body">
-                    <h4 class="card-title">Card title</h4>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                      card's content.</p>
-                    <a class="btn btn-primary">Button</a>
-                  </div>
-                </div>
-              </card>
-
-
-            </div>
-
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-    </div>
-  </card>
-</div>
-
-<div class="col-md-12">
-
-  <div class="btn-wrap division">
-    <button type="button" class="btn btn-success btn-with-icon">
-      <i class="fa fa-plus fa-fw"></i>Ajouter</button>
-    <!--<button class="btn btn-primary" (click)="thirdModal.open()">modal that cannot be simply closed</button>-->
-  
-  </div>
-  <card cardTitle='Equipe'>
-
     <table class="table table-bordered table-hover">
       <thead>
         <tr>
-          <th>FIRSTNAME</th>
-          <th>LASTNAME</th>
-          <th>USERNAME</th>
-          <th>EMAIL</th>
-          <th>AGE</th>
-          <th>STATE</th>
-          <th>ACTIONS</th>
+          <th *ngFor="let item of colonneSliders">{{ item }}</th>
         </tr>
       </thead>
       <tbody>
         <tr
-          *ngFor="let item of tableData | paginate: { id: 'pager', itemsPerPage: pageSize, currentPage: pageNumber};let index = index">
-          <td>{{item.firstName}}</td>
-          <td>{{item.lastName}}</td>
-          <td>{{item.username}}</td>
-          <td>{{item.email}}</td>
-          <td>{{item.age}}</td>
+          *ngFor="let item of sliders | paginate: { id: 'pager', itemsPerPage: pageSize, currentPage: pageNumber};let index = index">
+          <td>{{item.title}}</td>
+          <td>{{item.contenu}}</td>
           <td>
-            <span class="label label-info">info</span>
-          </td>
-          <td>
-            <button class="btn btn-icon btn-default" (click)="detail.open()">
+            <!--<button class="btn btn-icon btn-default" (click)="detail.open()">
               <i class="fa fa-eye fa-fw"></i>
-            </button>
-            <button class="btn btn-icon btn-primary" (click)="modification.open()">
+            </button>-->
+            <button class="btn btn-icon btn-primary" (click)="openModal(modalSlider, item)">
               <i class="fa fa-pencil fa-fw"></i>
             </button>
-            <button class="btn btn-icon btn-danger" (click)="supprission.open()">
+            <button class="btn btn-icon btn-danger" (click)="openModal(supprission, item)">
               <i class="fa fa-trash fa-fw"></i>
             </button>
           </td>
@@ -216,7 +103,136 @@
       </div>
       <div class="form-group options pages">
         <div class="input-group input-group-sm">
-          <select class="form-control" name="pageChangedName" [(ngModel)]="pageSize" (ngModelChange)="loadData()">
+          <select class="form-control" name="pageChangedName" [(ngModel)]="pageSize" (ngModelChange)="getData()">
+            <option>1</option>
+            <option>5</option>
+            <option>10</option>
+            <option>20</option>
+            <option>50</option>
+            <option>100</option>
+            <option>200</option>
+          </select>
+          <span class="input-group-addon addon-right">Per Page</span>
+        </div>
+      </div>
+    </form>
+
+  </card>
+
+</div>
+
+<div class="col-md-12">
+
+  <div class="btn-wrap division">
+    <button type="button" (click)="openModal(modalEquipe, {})" class="btn btn-success btn-with-icon">
+      <i class="fa fa-plus fa-fw"></i>Ajouter</button>
+
+
+    <modal #modalEquipe [closeOnEscape]="false" [closeOnOutsideClick]="false">
+      <modal-header>
+        <h3>AJOUTER</h3>
+      </modal-header>
+      <modal-content>
+
+        <form #e="ngForm" (ngSubmit)="onSubmitEquipe(e, modalEquipe)">
+
+          <div class="form-group">
+
+            <div class="m-auto">
+              <div *ngIf="urls && urls.length > 0" style="display: block;text-align: center;">
+                <img *ngFor="let url of urls" [src]="url" style="max-width: 250px; max-height: 250px;" alt="">
+              </div>
+
+              <label class="control-label">Photo</label>
+              <input class="form-control mt-2" accept="image/x-png,image/gif,image/jpeg,image/jpg" type="file"
+                name="image" (change)="onSelectFile($event, f)" ngModel required>
+            </div>
+
+            <label class="control-label">Nom Complet</label>
+            <input type="text" name="name" [ngModel]="dataUpdate?.name" class="form-control" placeholder="" required>
+
+            <label class="control-label">Titre ou post occuper</label>
+            <input type="text" name="post" [ngModel]="dataUpdate?.post" class="form-control" placeholder=""
+              required>
+
+              <label class="control-label">Contact</label>
+              <input type="text" name="contact" [ngModel]="dataUpdate?.contact" class="form-control" placeholder=""
+                required>
+
+                <label class="control-label">Description</label>
+                <input type="text" name="description_post" [ngModel]="dataUpdate?.description_post" class="form-control" placeholder=""
+                  required>
+
+
+          </div>
+
+          <div class="">
+
+            <button type="button" class="btn btn-default" (click)="closeModal(modalEquipe)">Annuler</button>
+            <button type="submit" class="btn btn-success">Enregistrer</button>
+          </div>
+
+        </form>
+
+      </modal-content>
+    </modal>
+
+
+    <modal #supprissionEquipe [closeOnEscape]="false" [closeOnOutsideClick]="false">
+      <modal-header>
+        <h3>SUPPRESSION</h3>
+      </modal-header>
+      <modal-content>
+
+        <p>
+          Voulez-vous supprimer cet element ?
+        </p>
+
+      </modal-content>
+      <modal-footer>
+        <button class="btn btn-primary" (click)="closeModal(supprissionEquipe)">NON</button>
+        <button class="btn btn-danger" (click)="onSubmitDeletEquipe(supprissionEquipe)">OUI</button>
+      </modal-footer>
+    </modal>
+
+  </div>
+  <card cardTitle='Equipe'>
+
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th *ngFor="let item of colonneEquipe">{{ item }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let item of equipes | paginate: { id: 'pager', itemsPerPage: pageSize, currentPage: pageNumber};let index = index">
+          <td>{{item.name}}</td>
+          <td>{{item.post}}</td>
+          <td>{{item.contact}}</td>
+
+          <td>
+            <button class="btn btn-icon btn-primary" (click)="openModal(modalEquipe, item)">
+              <i class="fa fa-pencil fa-fw"></i>
+            </button>
+            <button class="btn btn-icon btn-danger" (click)="openModal(supprissionEquipe, item)">
+              <i class="fa fa-trash fa-fw"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <form class="pagination-wrapper">
+      <div class="form-group pages">
+        <pagination-controls class="my-pagination" id="pager" (pageChange)="pageChanged($event)" maxSize="9"
+          directionLinks="true" autoHide="true" previousLabel="Prev" nextLabel="Next"
+          screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+          screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+      </div>
+      <div class="form-group options pages">
+        <div class="input-group input-group-sm">
+          <select class="form-control" name="pageChangedName" [(ngModel)]="pageSize" (ngModelChange)="getData()">
             <option>1</option>
             <option>5</option>
             <option>10</option>
@@ -236,43 +252,87 @@
 
 <div class="col-md-12">
   <div class="btn-wrap division">
-    <button type="button" class="btn btn-success btn-with-icon">
+    <button type="button" (click)="openModal(modalPartenaire, {})" class="btn btn-success btn-with-icon">
       <i class="fa fa-plus fa-fw"></i>Ajouter</button>
-    <!--<button class="btn btn-primary" (click)="thirdModal.open()">modal that cannot be simply closed</button>-->
-  
+
+
+    <modal #modalPartenaire [closeOnEscape]="false" [closeOnOutsideClick]="false">
+      <modal-header>
+        <h3>AJOUTER</h3>
+      </modal-header>
+      <modal-content>
+
+        <form #e="ngForm" (ngSubmit)="onSubmitPartenaire(e, modalPartenaire)">
+
+          <div class="form-group">
+
+            <div class="m-auto">
+              <div *ngIf="urls && urls.length > 0" style="display: block;text-align: center;">
+                <img *ngFor="let url of urls" [src]="url" style="max-width: 250px; max-height: 250px;" alt="">
+              </div>
+
+              <label class="control-label">Photo</label>
+              <input class="form-control mt-2" accept="image/x-png,image/gif,image/jpeg,image/jpg" type="file"
+                name="image" (change)="onSelectFile($event, f)" ngModel required>
+            </div>
+
+            <label class="control-label">Nom Complet</label>
+            <input type="text" name="nom" [ngModel]="dataUpdate?.nom" class="form-control" placeholder="" required>
+
+            <label class="control-label">Lien du site web</label>
+            <input type="url" name="url" [ngModel]="dataUpdate?.url" class="form-control" placeholder=""
+              required>
+
+          </div>
+
+          <div class="">
+
+            <button type="button" class="btn btn-default" (click)="closeModal(modalPartenaire)">Annuler</button>
+            <button type="submit" class="btn btn-success">Enregistrer</button>
+          </div>
+
+        </form>
+
+      </modal-content>
+    </modal>
+
+
+    <modal #supprissionPartenaire [closeOnEscape]="false" [closeOnOutsideClick]="false">
+      <modal-header>
+        <h3>SUPPRESSION</h3>
+      </modal-header>
+      <modal-content>
+
+        <p>
+          Voulez-vous supprimer cet element ?
+        </p>
+
+      </modal-content>
+      <modal-footer>
+        <button class="btn btn-primary" (click)="closeModal(supprissionPartenaire)">NON</button>
+        <button class="btn btn-danger" (click)="onSubmitDeletPartenaire(supprissionPartenaire)">OUI</button>
+      </modal-footer>
+    </modal>
+
   </div>
   <card cardTitle='Partenaire'>
     <table class="table table-bordered table-hover">
       <thead>
         <tr>
-          <th>FIRSTNAME</th>
-          <th>LASTNAME</th>
-          <th>USERNAME</th>
-          <th>EMAIL</th>
-          <th>AGE</th>
-          <th>STATE</th>
-          <th>ACTIONS</th>
+          <th *ngFor="let item of colonnePartenaire">{{ item }}</th>
         </tr>
       </thead>
       <tbody>
         <tr
-          *ngFor="let item of tableData | paginate: { id: 'pager', itemsPerPage: pageSize, currentPage: pageNumber};let index = index">
-          <td>{{item.firstName}}</td>
-          <td>{{item.lastName}}</td>
-          <td>{{item.username}}</td>
-          <td>{{item.email}}</td>
-          <td>{{item.age}}</td>
+          *ngFor="let item of partenaires | paginate: { id: 'pager', itemsPerPage: pageSize, currentPage: pageNumber};let index = index">
+          <td>{{item.nom}}</td>
+          <td> <a [href]="item.url" target="_blank" rel="noopener noreferrer">{{item.url}}</a> </td>
+
           <td>
-            <span class="label label-info">info</span>
-          </td>
-          <td>
-            <button class="btn btn-icon btn-default" (click)="detail.open()">
-              <i class="fa fa-eye fa-fw"></i>
-            </button>
-            <button class="btn btn-icon btn-primary" (click)="modification.open()">
+            <button class="btn btn-icon btn-primary" (click)="openModal(modalPartenaire, item)">
               <i class="fa fa-pencil fa-fw"></i>
             </button>
-            <button class="btn btn-icon btn-danger" (click)="supprission.open()">
+            <button class="btn btn-icon btn-danger" (click)="openModal(supprissionPartenaire, item)">
               <i class="fa fa-trash fa-fw"></i>
             </button>
           </td>
@@ -289,7 +349,7 @@
       </div>
       <div class="form-group options pages">
         <div class="input-group input-group-sm">
-          <select class="form-control" name="pageChangedName" [(ngModel)]="pageSize" (ngModelChange)="loadData()">
+          <select class="form-control" name="pageChangedName" [(ngModel)]="pageSize" (ngModelChange)="getData()">
             <option>1</option>
             <option>5</option>
             <option>10</option>
@@ -339,88 +399,5 @@
   </modal-footer>
 </modal>
 
-<modal #detail [closeOnEscape]="false" [closeOnOutsideClick]="false">
-  <modal-header>
-    <h3>modal that cannot be simply closed</h3>
-  </modal-header>
-  <modal-content>
 
-    <div class="form-group">
-      <label class="control-label">Text</label>
-      <input type="text" class="form-control" placeholder="Text Input">
-      <label class="control-label">Password</label>
-      <input type="password" class="form-control" placeholder="Password Input">
-      <label class="control-label">With Help</label>
-      <input type="text" class="form-control" placeholder="With Help">
-      <span class="help-block sub-little-text">A block of help text that breaks onto a new line and may extend beyond
-        one line.</span>
-      <label class="control-label">Small Input</label>
-      <input type="text" class="form-control form-control-sm" placeholder="Small Input">
-      <label class="control-label">Large Input</label>
-      <input type="text" class="form-control form-control-lg" placeholder="Large Input">
-      <label class="control-label">Disabled</label>
-      <input type="text" class="form-control" placeholder="Disabled Input" disabled>
-      <label class="control-label">Readonly</label>
-      <input type="text" class="form-control" placeholder="Readonly Input" readonly>
-      <label class="control-label">Textarea</label>
-      <textarea cols="0" rows="10" class="form-control" placeholder="Textarea"></textarea>
-    </div>
-
-  </modal-content>
-  <modal-footer>
-    <button class="btn btn-primary" (click)="closeModal(detail)">close</button>
-  </modal-footer>
-</modal>
-
-<modal #modification [closeOnEscape]="false" [closeOnOutsideClick]="false">
-  <modal-header>
-    <h3>modal that cannot be simply closed</h3>
-  </modal-header>
-  <modal-content>
-
-    <div class="form-group">
-      <label class="control-label">Text</label>
-      <input type="text" class="form-control" placeholder="Text Input">
-      <label class="control-label">Password</label>
-      <input type="password" class="form-control" placeholder="Password Input">
-      <label class="control-label">With Help</label>
-      <input type="text" class="form-control" placeholder="With Help">
-      <span class="help-block sub-little-text">A block of help text that breaks onto a new line and may extend beyond
-        one line.</span>
-      <label class="control-label">Small Input</label>
-      <input type="text" class="form-control form-control-sm" placeholder="Small Input">
-      <label class="control-label">Large Input</label>
-      <input type="text" class="form-control form-control-lg" placeholder="Large Input">
-      <label class="control-label">Disabled</label>
-      <input type="text" class="form-control" placeholder="Disabled Input" disabled>
-      <label class="control-label">Readonly</label>
-      <input type="text" class="form-control" placeholder="Readonly Input" readonly>
-      <label class="control-label">Textarea</label>
-      <textarea cols="0" rows="10" class="form-control" placeholder="Textarea"></textarea>
-    </div>
-
-  </modal-content>
-  <modal-footer>
-    <button class="btn btn-primary" (click)="closeModal(modification)">close</button>
-  </modal-footer>
-</modal>
-
-<modal #supprission [closeOnEscape]="false" [closeOnOutsideClick]="false">
-  <modal-header>
-    <h3>modal that cannot be simply closed</h3>
-  </modal-header>
-  <modal-content>
-
-    <p>
-      Veniam consectetur proident ut reprehenderit dolore nostrud esse velit quis ea. Do amet magna enim labore mollit
-      minim eu cillum commodo aute. Sunt cillum ipsum adipisicing adipisicing non mollit esse irure et. Velit sint
-      proident laborum pariatur cillum velit et id. Aliqua excepteur mollit voluptate et quis irure adipisicing amet.
-
-    </p>
-
-  </modal-content>
-  <modal-footer>
-    <button class="btn btn-primary" (click)="closeModal(supprission)">close</button>
-  </modal-footer>
-</modal>
-
+<loading [loading]="showloading"></loading>

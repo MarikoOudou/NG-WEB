@@ -1,3 +1,4 @@
+
 <div class="btn-wrap division" style="margin-bottom: 3em;">
   <button type="button" (click)="ajouter_produit == true? ajouter_produit = false: ajouter_produit = true" class="btn btn-success btn-with-icon">
     <i class="fa fa-plus fa-fw"></i>Ajouter</button>
@@ -11,41 +12,72 @@
     <div class="form-group">
 
       <div class="row">
-        <div class="col-md-6">
-          <label class="control-label">Image du produit</label>
-          <div></div>
-          <input type="file" name="image" ngModel class="form-control">
-
-          <label class="control-label">Code prod</label>
-          <input type="text" name="code_prod" [ngModel]="'terrain001'" class="form-control" disabled>
-
-          <label class="control-label">Type</label>
-          <select name="role" ngModel id="select1" class="form-control">
-            <option value="maison">Maison</option>
-            <option value="terrain">Terrain</option>
-          </select>
-
-          <label class="control-label">Localité</label>
-          <input type="text" name="localite" ngModel class="form-control" placeholder="Localité">
-
-          <label class="control-label">Surface</label>
-          <input type="text" name="surface" ngModel class="form-control" placeholder="Surface">
-
-          <label class="control-label">Prix</label>
-          <input type="number" min="0" name="prix" ngModel class="form-control" placeholder="Prix">
-
-          <label class="control-label">Localisation Long</label>
-          <input type="text" name="localisation_long" ngModel class="form-control" placeholder="Localisation Long">
-
-          <label class="control-label">Localisation Lat</label>
-          <input type="text" name="localisation_lat" ngModel class="form-control" placeholder="Localisation Lat">
-
+        <div class="col-md-3">
+          <card cardTitle="Image du produit">
+            <div class="col-md-12 form-group">
+              <img class="thumbnail" src="assets/images/avatar.jpg" alt="" sizes="" style="height: 26em; width: 26em;" srcset="">
+            </div>
+              </card>
         </div>
-        <div class="col-md-6">
-          <card cardTitle="Description">
-                <pell-editor [defaultContent]="defaultContent" (content)="onContentChange($event)"></pell-editor>
+        <div class="col-md-9">
+
+          <card>
+            <div class="col-md-6 form-group">
+              <label class="control-label">Image du produit</label>
+              <input type="file" name="image" ngModel class="form-control">
+            </div>
+
+            <div class="col-md-6 form-group">
+              <label class="control-label">Code produit</label>
+              <input type="text" name="code_prod" [ngModel]="'terrain001'" class="form-control" disabled>
+            </div>
+
+            <div class="col-md-6 form-group">
+              <label class="control-label">Type</label>
+              <select name="role" ngModel id="select1" class="form-control">
+                <option value="maison">Maison</option>
+                <option value="terrain">Terrain</option>
+              </select>
+            </div>
+
+            <div class="col-md-6 form-group">
+              <label class="control-label">Localité</label>
+              <input type="text" name="localite" ngModel class="form-control" placeholder="Localité">
+            </div>
+
+            <div class="col-md-6 form-group">
+              <label class="control-label">Surface</label>
+              <input type="text" name="surface" ngModel class="form-control" placeholder="Surface">
+            </div>
+
+            <div class="col-md-6 form-group">
+              <label class="control-label">Prix</label>
+              <input type="number" min="0" name="prix" ngModel class="form-control" placeholder="Prix">
+            </div>
+
+            <div class="col-md-6 form-group">
+              <label class="control-label">Localisation Long</label>
+              <input type="text" name="localisation_long" ngModel class="form-control" placeholder="Localisation Long">
+            </div>
+
+            <div class="col-md-6 form-group">
+              <label class="control-label">Localisation Lat</label>
+              <input type="text" name="localisation_lat" ngModel class="form-control" placeholder="Localisation Lat">
+            </div>
+
+            <div class="col-md-12 form-group">
+              <label class="control-label">Description</label>
+              <textarea class="form-control" name="description" ngModel placeholder="Description"></textarea>
+            </div>
           </card>
         </div>
+
+
+
+
+
+
+
 
         <div class="col-md-12 text-center">
           <button type="submit" class="btn btn-lg btn-success">Enregistrer</button>

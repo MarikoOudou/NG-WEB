@@ -1,163 +1,380 @@
 import { Slider } from './../../../shared/models/slider';
 import { Component, OnInit } from '@angular/core';
 import swal from 'sweetalert2';
+import { NgForm } from '@angular/forms';
+import { GetRequestService } from '../../../shared/services/get-request.service';
+import { PostRequestService } from '../../../shared/services/post-request.service';
 
 @Component({
   templateUrl: './accueil.component.html',
   styleUrls: ['./accueil.component.scss']
 })
 export class AccueilComponent implements OnInit {
+  [x: string]: any;
 
-  tableData: Array<any>;
+  colonneEquipe: any = [
+    'Nom complet',
+    'Poste',
+    'Contact',
+    'Actions',
+  ];
+  colonnePartenaire: any = [
+    'Nom du partenaire',
+    'Site Web',
+    'Actions',
+  ];
+
+  colonneSliders: any = [
+    'Titre',
+    'Contenu',
+    'Actions',
+  ];
+
+  partenaires: any = [];
+  equipes: any = [];
 
   /* pagination Info */
-  pageSize = 10;
+  pageSize: any = 5;
   pageNumber = 1;
+  showloading: boolean = true;
+  listProduit: any = [];
+  vente: any;
+  sliders: any;
+  slider: any;
+  urls: any[] = [];
+  dataUpdate: any = {}
 
-  mes_slide: [Slider] = [
-    {
-      title: 'Card title',
-      contenu: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
-      url_img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(31).jpg'
-    }
-  ];
+  constructor(
+    //private _chartsService: ChartsService,
+    private _servicesGet: GetRequestService,
+    private _servicesPost: PostRequestService) { }
 
-  constructor() { }
 
   ngOnInit() {
-    this.loadData();
+    this.getData();
+
   }
 
-  loadData() {
-    this.tableData = [
-      {
-          id: 1,
-          firstName: 'Mark',
-          lastName: 'Otto',
-          username: '@mdo',
-          email: 'mdo@gmail.com',
-          age: '28'
-      },
-      {
-          id: 2,
-          firstName: 'Jacob',
-          lastName: 'Thornton',
-          username: '@fat',
-          email: 'fat@yandex.ru',
-          age: '45'
-      },
-      {
-          id: 3,
-          firstName: 'Larry',
-          lastName: 'Bird',
-          username: '@twitter',
-          email: 'twitter@outlook.com',
-          age: '18'
-      },
-      {
-          id: 4,
-          firstName: 'John',
-          lastName: 'Snow',
-          username: '@snow',
-          email: 'snow@gmail.com',
-          age: '20'
-      },
-      {
-          id: 5,
-          firstName: 'Jack',
-          lastName: 'Sparrow',
-          username: '@jack',
-          email: 'jack@yandex.ru',
-          age: '30'
-      },
-      {
-          id: 6,
-          firstName: 'Ann',
-          lastName: 'Smith',
-          username: '@ann',
-          email: 'ann@gmail.com',
-          age: '21'
-      },
-      {
-          id: 7,
-          firstName: 'Barbara',
-          lastName: 'Black',
-          username: '@barbara',
-          email: 'barbara@yandex.ru',
-          age: '43'
-      },
-      {
-          id: 8,
-          firstName: 'Sevan',
-          lastName: 'Bagrat',
-          username: '@sevan',
-          email: 'sevan@outlook.com',
-          age: '13'
-      },
-      {
-          id: 9,
-          firstName: 'Ruben',
-          lastName: 'Vardan',
-          username: '@ruben',
-          email: 'ruben@gmail.com',
-          age: '22'
-      },
-      {
-          id: 10,
-          firstName: 'Karen',
-          lastName: 'Sevan',
-          username: '@karen',
-          email: 'karen@yandex.ru',
-          age: '33'
-      },
-      {
-          id: 11,
-          firstName: 'Mark',
-          lastName: 'Otto',
-          username: '@mark',
-          email: 'mark@gmail.com',
-          age: '38'
-      },
-      {
-          id: 12,
-          firstName: 'Jacob',
-          lastName: 'Thornton',
-          username: '@jacob',
-          email: 'jacob@yandex.ru',
-          age: '48'
-      },
-      {
-          id: 13,
-          firstName: 'Haik',
-          lastName: 'Hakob',
-          username: '@haik',
-          email: 'haik@outlook.com',
-          age: '48'
-      },
-      {
-          id: 14,
-          firstName: 'Garegin',
-          lastName: 'Jirair',
-          username: '@garegin',
-          email: 'garegin@gmail.com',
-          age: '40'
-      },
-      {
-          id: 15,
-          firstName: 'Krikor',
-          lastName: 'Bedros',
-          username: '@krikor',
-          email: 'krikor@yandex.ru',
-          age: '32'
-      }
-  ];
+  getUser() {
+    return 1;
   }
+
+
+  // sliders methode
+  onSubmitSlider(form: NgForm, thirdModal: any) {
+    let date_jour = this.getDay();
+    this.showloading = true;
+    let data = form.value;
+    data.image = this.urls[0]
+    data.user_id = this.getUser();
+    console.log(data)
+
+    if (this.dataUpdate.id) {
+      console.log("id existe ")
+
+      this._servicesPost.putRequest(data, 'sliders/' + this.dataUpdate.id).subscribe(
+        {
+          next: (x: any) => {
+            console.log(x)
+            if (x.success) {
+              this.getData();
+              this.closeModal(thirdModal);
+              this.showloading = false;
+              this.onCloseSuccess();
+            } else {
+              this.closeModal(thirdModal);
+              this.showloading = false;
+              this.onCloseError();
+            }
+          }
+        }
+      );
+
+    } else {
+
+      this._servicesPost.postRequest(data, 'sliders').subscribe(
+        {
+          next: (x: any) => {
+            console.log(x)
+            if (x.success) {
+              this.getData();
+              this.closeModal(thirdModal);
+              this.showloading = false;
+              this.onCloseSuccess();
+            } else {
+              this.closeModal(thirdModal);
+              this.showloading = false;
+              this.onCloseError();
+            }
+          }
+        }
+      );
+    }
+
+
+
+  }
+
+  onSubmitDeletSlider(thirdModal: any) {
+    let date_jour = this.getDay();
+    this.showloading = true;
+
+    console.log(this.dataUpdate.id)
+
+    this._servicesGet.delectRequest("sliders/" + this.dataUpdate.id).subscribe(
+      {
+        next: (x: any) => {
+          if (x.success) {
+            console.log(x)
+            this.showloading = false;
+            this.getData();
+            this.closeModal(thirdModal);
+            this.onCloseSuccess();
+          } else {
+            console.log(x)
+            this.closeModal(thirdModal);
+            this.showloading = false;
+            this.onCloseError();
+
+          }
+        }
+      }
+    )
+  }
+
+  // equipe methode
+  onSubmitEquipe(form: NgForm, thirdModal: any) {
+    let date_jour = this.getDay();
+    this.showloading = true;
+    let data = form.value;
+    data.image = this.urls[0]
+    data.user_id = this.getUser();
+    console.log(data)
+
+    if (this.dataUpdate.id) {
+      console.log("id existe ")
+
+      this._servicesPost.putRequest(data, 'equipes/' + this.dataUpdate.id).subscribe(
+        {
+          next: (x: any) => {
+            console.log(x)
+            if (x.success) {
+              this.getData();
+              this.closeModal(thirdModal);
+              this.showloading = false;
+              this.onCloseSuccess();
+            } else {
+              this.closeModal(thirdModal);
+              this.showloading = false;
+              this.onCloseError();
+            }
+          }
+        }
+      );
+
+    } else {
+
+      this._servicesPost.postRequest(data, 'equipes').subscribe(
+        {
+          next: (x: any) => {
+            console.log(x)
+            if (x.success) {
+              this.getData();
+              this.closeModal(thirdModal);
+              this.showloading = false;
+              this.onCloseSuccess();
+            } else {
+              this.closeModal(thirdModal);
+              this.showloading = false;
+              this.onCloseError();
+            }
+          }
+        }
+      );
+    }
+
+
+
+  }
+
+  onSubmitDeletEquipe(thirdModal: any) {
+    let date_jour = this.getDay();
+    this.showloading = true;
+
+    console.log(this.dataUpdate.id)
+
+    this._servicesGet.delectRequest("equipes/" + this.dataUpdate.id).subscribe(
+      {
+        next: (x: any) => {
+          if (x.success) {
+            console.log(x)
+            this.showloading = false;
+            this.getData();
+            this.closeModal(thirdModal);
+            this.onCloseSuccess();
+          } else {
+            console.log(x)
+            this.closeModal(thirdModal);
+            this.showloading = false;
+            this.onCloseError();
+
+          }
+        }
+      }
+    )
+  }
+
+  // partenaire methode
+  onSubmitPartenaire(form: NgForm, thirdModal: any) {
+    let date_jour = this.getDay();
+    this.showloading = true;
+    let data = form.value;
+    data.image = this.urls[0]
+    data.user_id = this.getUser();
+    console.log(data)
+
+    if (this.dataUpdate.id) {
+      console.log("id existe ")
+
+      this._servicesPost.putRequest(data, 'partenaires/' + this.dataUpdate.id).subscribe(
+        {
+          next: (x: any) => {
+            console.log(x)
+            if (x.success) {
+              this.getData();
+              this.closeModal(thirdModal);
+              this.showloading = false;
+              this.onCloseSuccess();
+            } else {
+              this.closeModal(thirdModal);
+              this.showloading = false;
+              this.onCloseError();
+            }
+          }
+        }
+      );
+
+    } else {
+
+      this._servicesPost.postRequest(data, 'partenaires').subscribe(
+        {
+          next: (x: any) => {
+            console.log(x)
+            if (x.success) {
+              this.getData();
+              this.closeModal(thirdModal);
+              this.showloading = false;
+              this.onCloseSuccess();
+            } else {
+              this.closeModal(thirdModal);
+              this.showloading = false;
+              this.onCloseError();
+            }
+          }
+        }
+      );
+    }
+
+
+
+  }
+
+  onSubmitDeletPartenaire(thirdModal: any) {
+    let date_jour = this.getDay();
+    this.showloading = true;
+
+    console.log(this.dataUpdate.id)
+
+    this._servicesGet.delectRequest("partenaires/" + this.dataUpdate.id).subscribe(
+      {
+        next: (x: any) => {
+          if (x.success) {
+            console.log(x)
+            this.showloading = false;
+            this.getData();
+            this.closeModal(thirdModal);
+            this.onCloseSuccess();
+          } else {
+            console.log(x)
+            this.closeModal(thirdModal);
+            this.showloading = false;
+            this.onCloseError();
+
+          }
+        }
+      }
+    )
+  }
+
+  getDay() {
+    var today: any = new Date(Date.now());
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = yyyy + '/' + mm + '/' + dd;
+    // console.log(today)
+    return today;
+  }
+
+  getData() {
+    this._servicesGet.getRequest('accueil').subscribe(
+      {
+        next: (x: any) => {
+
+          this.sliders = x.datas.sliders;
+          this.equipes = x.datas.equipes;
+          this.partenaires = x.datas.partenaires;
+          this.showloading = false;
+
+        },
+        error: x => console.error(x)
+      }
+    );
+  }
+
+  onSelectFile(event, f: NgForm) {
+    this.urls = [];
+    this.images = [];
+    console.log(event.target)
+    if (event.target.files && event.target.files[0]) {
+      const filesAmount = event.target.files.length;
+      for (let i = 0; i < filesAmount; i++) {
+        this.images[i] = event.target.files[i];
+        const reader = new FileReader();
+        // console.log(new FileReader());
+        // tslint:disable-next-line:no-shadowed-variable
+        reader.onload = (event: any) => {
+          this.urls.push(event.target.result);
+        };
+        reader.readAsDataURL(event.target.files[i]);
+      }
+    }
+    // console.log(this.images[0].size);
+    this.sizeFile = this.images[0].size;
+
+  }
+
 
   pageChanged(pN: number): void {
     this.pageNumber = pN;
   }
 
-  openModal(modal) {
+  openModal(modal, data) {
+    console.log(modal)
+    if (data != {}) {
+      this.urls[0] = data.image
+      this.dataUpdate = data;
+    } else {
+      this.urls[0] = ""
+      this.dataUpdate = {}
+    }
+    modal.open();
+  }
+
+  modif(modal, data) {
+    this.vente = data;
+    console.log(data)
     modal.open();
   }
 
@@ -165,7 +382,7 @@ export class AccueilComponent implements OnInit {
     modal.close();
   }
 
-  onClose() {
+  onCloseSuccess() {
     swal({
       type: 'success',
       title: 'Success!',
@@ -173,4 +390,11 @@ export class AccueilComponent implements OnInit {
     });
   }
 
+  onCloseError() {
+    swal({
+      type: 'error',
+      title: 'Error!',
+      text: 'close it!',
+    });
+  }
 }

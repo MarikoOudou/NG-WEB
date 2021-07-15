@@ -18,13 +18,13 @@ const routes: Routes = [{
       component: MaisonsComponent,
     },
 
-    {
+    /*{
       path: '',
       redirectTo: 'terrains',
       pathMatch: 'full',
     }
 
-    /*{
+    {
       path: 'tabs',
       component: TabsComponent,
       children: [

@@ -21,6 +21,14 @@ export class PostRequestService {
     );
   }
 
+  public putRequest(data: any, dataClass): Observable<any[]> {
+
+    return this.http.put<any[]>(this.url + dataClass, data)
+    .pipe(
+      tap(data => console.log('datas :', data))
+    );
+  }
+
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

@@ -5,12 +5,12 @@ export let MENU_ITEM = [
         icon: 'dashboard'
     },
 
-
+/*
     {
       path: 'profile',
       title: 'Profil',
       icon: 'user'
-    },
+    },*/
 
     {
       path: 'ventes',
@@ -44,11 +44,11 @@ export let MENU_ITEM = [
       {
           path: 'accueil',
           title: 'Accueil'
-      },
+      },/*
       {
         path: 'equipe',
         title: 'Equipe'
-    },
+    },*/
   ]
 },
 
@@ -77,7 +77,6 @@ export let MENU_ITEM = [
 
 
 
-/*
 
 {
   path: '',
@@ -204,5 +203,5 @@ export let MENU_ITEM = [
                 title: 'Menu Level2'
             }
         ]
-    },*/
+    },
 ];

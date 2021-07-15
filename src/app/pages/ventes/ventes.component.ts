@@ -41,9 +41,41 @@ export class VentesComponent implements OnInit {
   onSubmit(form: NgForm, thirdModal: any) {
     let date_jour = this.getDay();
     this.showloading = true;
-    console.log(form.value)
-    this.closeModal(thirdModal);
-    this.onCloseSuccess();
+    console.log(form)
+
+    let data = form.value;
+    data.date_vente = date_jour;
+    data.user_id = this.getUser();
+
+    console.log(data)
+
+    this._servicesPost.postRequest(data, "ventes" ).subscribe({
+      next: (x: any) => {
+        if(x.success) {
+          this.closeModal(thirdModal);
+          this.onCloseSuccess();
+          console.log('reponse success ', x)
+          this.showloading = false;
+          form.resetForm();
+          this.getData();
+          this.getProduit();
+        }else {
+          this.closeModal(thirdModal);
+          this.onCloseError();
+          this.showloading = false;
+          console.log(x)
+        }
+
+      },
+      error: (x)=> {
+        this.closeModal(thirdModal);
+        this.onCloseError();
+        this.showloading = false;
+        console.log(x)
+      }
+    });
+
+
   }
 
   getDay() {
@@ -100,6 +132,29 @@ export class VentesComponent implements OnInit {
     modal.close();
   }
 
+  annuler(modal) {
+    console.log(this.vente.id)
+    this.showloading = true;
+    this._servicesGet.getRequest('ventes/annuler/' + this.vente.id).subscribe(
+      {
+        next: (x:any)=> {
+          if (x.success) {
+            this.showloading = false;
+            this.vente = {};
+          this.onCloseSuccess();
+          this.getData();
+            this.getProduit();
+          }else {
+            this.onCloseError();
+            this.showloading = false;
+            console.log(x)
+          }
+        }
+      }
+    )
+    modal.close();
+  }
+
   onCloseSuccess() {
     swal({
       type: 'success',
@@ -114,6 +169,10 @@ export class VentesComponent implements OnInit {
       title: 'Error!',
       text: 'close it!',
     });
+  }
+
+  getUser() {
+    return 1;
   }
 
 }

@@ -27,9 +27,9 @@
                 {{(item.role == role.code ? role.title : '') | uppercase}}</div>
             </td>
             <td>
-              <button class="btn btn-icon btn-default" (click)="openModal(detail, item)">
+              <!--<button class="btn btn-icon btn-default" (click)="openModal(detail, item)">
                 <i class="fa fa-eye fa-fw"></i>
-              </button>
+              </button>-->
               <button class="btn btn-icon btn-primary" (click)="openModal(modification, item)">
                 <i class="fa fa-pencil fa-fw"></i>
               </button>
@@ -127,12 +127,6 @@
                       utilisateur.role == roles[2].code?roles[2].title:
                       utilisateur.role == roles[3].code?roles[3].title:'') | uppercase" disabled>
 
-      <!--<select name="role" ngModel id="select1" class="form-control" disabled>
-        <option [value]="utilisateur.role" selected>{{(utilisateur.role == roles[0].code?roles[0].title:
-                                              utilisateur.role == roles[1].code?roles[1].title:
-                                              utilisateur.role == roles[2].code?roles[2].title:
-                                              utilisateur.role == roles[3].code?roles[3].title:'') | uppercase}}</option>
-      </select>-->
 
       <label class="control-label">E-mail</label>
       <input type="email" name="email" ngModel class="form-control" [placeholder]="utilisateur.email" disabled>
@@ -154,7 +148,7 @@
   </modal-header>
   <modal-content>
 
-    <form #f="ngForm" (ngSubmit)="onSubmit(f, thirdModal)">
+    <form #m="ngForm" (ngSubmit)="onSubmit(m, modification)">
 
       <div class="form-group">
         <label class="control-label">Nom Complet</label>
@@ -197,7 +191,7 @@
   </modal-content>
   <modal-footer>
     <button class="btn btn-default" (click)="closeModal(supprission)">NON</button>
-    <button class="btn btn-primary" (click)="closeModal(supprission)">OUI</button>
+    <button class="btn btn-primary" (click)="onSubmitDelet(supprission)">OUI</button>
   </modal-footer>
 </modal>
 

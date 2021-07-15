@@ -1,95 +1,42 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { GetRequestService } from '../../../shared/services/get-request.service';
 import { PostRequestService } from '../../../shared/services/post-request.service';
-import swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-article',
-  templateUrl: './article.component.html',
-  styleUrls: ['./article.component.scss']
+  selector: 'app-article-update',
+  templateUrl: './article-update.component.html',
+  styleUrls: ['./article-update.component.scss']
 })
-export class ArticleComponent implements OnInit {
-
-
-  colonneEquipe: any = [
-    'Date de vente',
-    'Prix',
-    'Code produit',
-    'Actions',
-  ];
-  colonnePartenaire: any = [
-    'Date de vente',
-    'Prix',
-    'Code produit',
-    'Actions',
-  ];
-
-  colonneSliders: any = [
-    'Titre',
-    'Slug',
-    'Active',
-    'Actions',
-  ];
-
-  partenaires: any = [];
-  equipes: any = [];
-
-  /* pagination Info */
-  pageSize: any = 10;
-  pageNumber = 1;
-  showloading: boolean = true;
-  listProduit: any = [];
-  vente: any;
-  sliders: any;
-  tabledata: any;
+export class ArticleUpdateComponent implements OnInit {
+  showloading: boolean;
   article: any;
-  urls: any[] = [];
-  images: any[] = [];
-  sizeFile: any = [];
-  ajouter_article:boolean = false
+  tabledata: any;
+  urls: any[]=[];
+  images: any[];
+  sizeFile: any;
+  id: string;
   categories: any;
 
   constructor(
-    //private _chartsService: ChartsService,
+    private routerActive: ActivatedRoute,
+    private router: Router,
     private _servicesGet: GetRequestService,
     private _servicesPost: PostRequestService) { }
 
-
   ngOnInit() {
-    this.getData();
-    this.getDataCategorie();
-
-  }
-
-  onSubmit(form: NgForm) {
-    let date_jour = this.getDay();
-    this.showloading = true;
-    console.log(form.value)
-    let data = form.value;
-    data.image = this.urls[0]
-    data.user_id = this.getUser();
-    console.log("data ", data)
-    this._servicesPost.postRequest(data, "post").subscribe(
+    this.routerActive.params.subscribe(
       {
-        next: (x: any)=> {
-          if (x.success) {
-            console.log(x)
-            this.showloading = false;
-          this.getData();
-            this.onCloseSuccess();
-          }else {
-            console.log(x)
-            this.showloading = false;
-            this.onCloseError();
-
-          }
+        next: x => {
+          console.log(x)
+          this.id = x.id
+          this.getData(x.id)
+          this.getDataCategorie()
         }
       }
     )
-
   }
-
 
   getDataCategorie() {
     this._servicesGet.getRequest('category').subscribe(
@@ -105,6 +52,42 @@ export class ArticleComponent implements OnInit {
     );
   }
 
+  onSubmit(form: NgForm, thirdModal: any) {
+    let date_jour = this.getDay();
+    this.showloading = true;
+    console.log(form.value)
+    let data = form.value;
+    this._servicesPost.postRequest(data, "category").subscribe(
+      {
+        next: (x: any)=> {
+          if (x.success) {
+            console.log(x)
+            this.showloading = false;
+          // this.getData();
+          this.closeModal(thirdModal);
+            this.onCloseSuccess();
+          }else {
+            console.log(x)
+            this.closeModal(thirdModal);
+            this.showloading = false;
+            this.onCloseError();
+
+          }
+        }
+      }
+    )
+
+  }
+  closeModal(thirdModal: any) {
+    throw new Error('Method not implemented.');
+  }
+  onCloseSuccess() {
+    throw new Error('Method not implemented.');
+  }
+  onCloseError() {
+    throw new Error('Method not implemented.');
+  }
+
   onSubmitUpdate(form: NgForm, thirdModal: any){
     let date_jour = this.getDay();
     this.showloading = true;
@@ -117,7 +100,7 @@ export class ArticleComponent implements OnInit {
           if (x.success) {
             console.log(x)
             this.showloading = false;
-          this.getData();
+          //this.getData();
           this.closeModal(thirdModal);
             this.onCloseSuccess();
           }else {
@@ -132,32 +115,6 @@ export class ArticleComponent implements OnInit {
     )
   }
 
-  onSubmitDelet(thirdModal: any){
-    let date_jour = this.getDay();
-    this.showloading = true;
-
-    console.log(this.article.id)
-
-    this._servicesGet.delectRequest("post/" + this.article.id).subscribe(
-      {
-        next: (x: any)=> {
-          if (x.success) {
-            console.log(x)
-            this.showloading = false;
-          this.getData();
-          this.closeModal(thirdModal);
-            this.onCloseSuccess();
-          }else {
-            console.log(x)
-            this.closeModal(thirdModal);
-            this.showloading = false;
-            this.onCloseError();
-
-          }
-        }
-      }
-    )
-  }
 
   inputStatus(status: any, id: any) {
     console.log(status)
@@ -183,12 +140,13 @@ export class ArticleComponent implements OnInit {
     return today;
   }
 
-  getData() {
-    this._servicesGet.getRequest('post').subscribe(
+  getData(id) {
+    this._servicesGet.getRequest('post/' + id).subscribe(
       {
         next: (x: any) => {
 
-            this.tabledata = x.datas;
+            this.article = x.datas;
+            this.urls[0] = x.datas.ilage
             this.showloading = false;
 
         },
@@ -219,37 +177,4 @@ export class ArticleComponent implements OnInit {
 
   }
 
-  pageChanged(pN: number): void {
-    this.pageNumber = pN;
-  }
-
-  openModal(modal, data) {
-    this.article = data;
-    console.log(data)
-    modal.open();
-  }
-
-  getUser() {
-    return 1;
-  }
-
-  closeModal(modal) {
-    modal.close();
-  }
-
-  onCloseSuccess() {
-    swal({
-      type: 'success',
-      title: 'Success!',
-      text: 'close it!',
-    });
-  }
-
-  onCloseError() {
-    swal({
-      type: 'error',
-      title: 'Error!',
-      text: 'close it!',
-    });
-  }
 }

@@ -1,3 +1,4 @@
+import { LayoutModule } from './../../shared/layout.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -9,10 +10,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-modal';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SharedModule } from '../../shared/shared.module';
+import { ArticleUpdateComponent } from './article-update/article-update.component';
 
 
 @NgModule({
-  declarations: [BlogsComponent, CategoryComponent, ArticleComponent],
+  declarations: [BlogsComponent, CategoryComponent, ArticleComponent, ArticleUpdateComponent],
   imports: [
     CommonModule,
     BlogsRoutingModule,
@@ -21,6 +23,7 @@ import { SharedModule } from '../../shared/shared.module';
     NgxPaginationModule,
     ModalModule,
     SharedModule,
+    LayoutModule
   ]
 })
 export class BlogsModule { }

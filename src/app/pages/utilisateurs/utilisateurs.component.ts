@@ -18,9 +18,9 @@ export class UtilisateursComponent implements OnInit {
   nameTable: string = "Liste des utilisateurs";
   /* pagination Info */
   pageSize = 10;
-  loading: boolean = false;
+  loading: boolean = true;
   pageNumber = 1;
-  column : any = [
+  column: any = [
     'Nom complet',
     'email',
     'role',
@@ -28,6 +28,7 @@ export class UtilisateursComponent implements OnInit {
   ];
   roles: any = Role;
   utilisateur: any = {};
+  dataUpdate: any;
 
   constructor(
     //private _chartsService: ChartsService,
@@ -45,8 +46,8 @@ export class UtilisateursComponent implements OnInit {
       {
         next: (x: any) => {
 
-            this.tableData = x.datas;
-            this.loading = false;
+          this.tableData = x.datas;
+          this.loading = false;
 
         },
         error: x => console.error(x)
@@ -54,148 +55,95 @@ export class UtilisateursComponent implements OnInit {
     );
   }
 
-
   onSubmit(form: NgForm, thirdModal: any) {
     this.loading = true;
-    console.log(form.value)
-    this.closeModal(thirdModal);
-    this.onCloseSuccess();
+    let data = form.value;
+    console.log(data)
+
+    if (this.utilisateur.id) {
+      console.log("id existe ")
+
+      this._servicesPost.putRequest(data, 'users/' + this.utilisateur.id).subscribe(
+        {
+          next: (x: any) => {
+            console.log(x)
+            if (x.success) {
+              this.getData();
+              this.closeModal(thirdModal);
+              this.loading = false;
+              this.onCloseSuccess();
+            } else {
+              this.closeModal(thirdModal);
+              this.loading = false;
+              this.onCloseError();
+            }
+          }
+        }
+      );
+
+    } else {
+
+      this._servicesPost.postRequest(data, 'users').subscribe(
+        {
+          next: (x: any) => {
+            console.log(x)
+            if (x.success) {
+              this.getData();
+              this.closeModal(thirdModal);
+              this.loading = false;
+              this.onCloseSuccess();
+            } else {
+              this.closeModal(thirdModal);
+              this.loading = false;
+              this.onCloseError();
+            }
+          }
+        }
+      );
+    }
+
+
+
   }
 
-  loadData() {
-    this.tableData = [
+  onSubmitDelet(thirdModal: any) {
+    this.loading = true;
+
+    console.log(this.utilisateur.id)
+
+    this._servicesGet.delectRequest("users/" + this.utilisateur.id).subscribe(
       {
-          id: 1,
-          nom: 'Mark',
-          prenom: 'Otto',
-          username: '@mdo',
-          email: 'mdo@gmail.com',
-          role: 'user'
-      },
-      {
-          id: 2,
-          nom: 'Jacob',
-          prenom: 'Thornton',
-          username: '@fat',
-          contact: '@fat',
-          email: 'fat@yandex.ru',
-          role: 'admin'
-      },
-      {
-          id: 3,
-          nom: 'Larry',
-          prenom: 'Bird',
-          username: '@twitter',
-          email: 'twitter@outlook.com',
-          role: 'vendeur'
-      },
-      {
-          id: 4,
-          nom: 'John',
-          prenom: 'Snow',
-          username: '@snow',
-          email: 'snow@gmail.com',
-          role: 'editeur'
-      },
-      {
-          id: 5,
-          nom: 'Jack',
-          prenom: 'Sparrow',
-          username: '@jack',
-          email: 'jack@yandex.ru',
-          role: '30'
-      },
-      {
-          id: 6,
-          nom: 'Ann',
-          prenom: 'Smith',
-          username: '@ann',
-          email: 'ann@gmail.com',
-          role: '21'
-      },
-      {
-          id: 7,
-          nom: 'Barbara',
-          prenom: 'Black',
-          username: '@barbara',
-          email: 'barbara@yandex.ru',
-          role: '43'
-      },
-      {
-          id: 8,
-          nom: 'Sevan',
-          prenom: 'Bagrat',
-          username: '@sevan',
-          email: 'sevan@outlook.com',
-          role: '13'
-      },
-      {
-          id: 9,
-          nom: 'Ruben',
-          prenom: 'Vardan',
-          username: '@ruben',
-          email: 'ruben@gmail.com',
-          role: '22'
-      },
-      {
-          id: 10,
-          nom: 'Karen',
-          prenom: 'Sevan',
-          username: '@karen',
-          email: 'karen@yandex.ru',
-          role: '33'
-      },
-      {
-          id: 11,
-          nom: 'Mark',
-          prenom: 'Otto',
-          username: '@mark',
-          email: 'mark@gmail.com',
-          role: '38'
-      },
-      {
-          id: 12,
-          nom: 'Jacob',
-          prenom: 'Thornton',
-          username: '@jacob',
-          email: 'jacob@yandex.ru',
-          role: '48'
-      },
-      {
-          id: 13,
-          nom: 'Haik',
-          prenom: 'Hakob',
-          username: '@haik',
-          email: 'haik@outlook.com',
-          role: '48'
-      },
-      {
-          id: 14,
-          nom: 'Garegin',
-          prenom: 'Jirair',
-          username: '@garegin',
-          email: 'garegin@gmail.com',
-          role: '40'
-      },
-      {
-          id: 15,
-          nom: 'Krikor',
-          prenom: 'Bedros',
-          username: '@krikor',
-          email: 'krikor@yandex.ru',
-          role: '32'
+        next: (x: any) => {
+          if (x.success) {
+            console.log(x)
+            this.loading = false;
+            this.getData();
+            this.closeModal(thirdModal);
+            this.onCloseSuccess();
+          } else {
+            console.log(x)
+            this.closeModal(thirdModal);
+            this.loading = false;
+            this.onCloseError();
+
+          }
+        }
       }
-  ];
+    )
   }
+
+  openModal(modal, data) {
+    console.log(modal)
+    this.utilisateur = {}
+    this.utilisateur = data;
+    modal.open();
+  }
+
 
   pageChanged(pN: number): void {
     this.pageNumber = pN;
   }
 
-  openModal(modal, data) {
-    this.utilisateur = data;
-    modal.open();
-  }
 
   closeModal(modal) {
     modal.close();

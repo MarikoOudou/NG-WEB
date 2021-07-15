@@ -1,3 +1,4 @@
+import { ArticleUpdateComponent } from './article-update/article-update.component';
 import { ArticleComponent } from './article/article.component';
 import { CategoryComponent } from './category/category.component';
 import { NgModule } from '@angular/core';
@@ -17,6 +18,11 @@ const routes: Routes = [{
     {
       path: 'article',
       component: ArticleComponent,
+    },
+
+    {
+      path: 'article/edit/:id',
+      component: ArticleUpdateComponent,
     },
 
     {

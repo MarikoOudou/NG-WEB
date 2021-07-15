@@ -51,6 +51,7 @@
   <!--<button class="btn btn-primary" (click)="thirdModal.open()">modal that cannot be simply closed</button>-->
 
 </div>
+
 <div class="row">
   <div class="col-md-12">
     <card cardTitle="Data Table">
@@ -124,7 +125,7 @@
         <input type="number" min="0" name="prix_vente" ngModel class="form-control" placeholder="Prix de vente" required>
 
         <label class="control-label">Produit Disponible</label>
-        <select name="produit_id" ngModel id="select1" class="form-control" required>
+        <select name="produit_id" ngModel class="form-control" required>
           <option *ngFor="let item of listProduit" [value]="item.id">{{item.code_prod}}</option>
         </select>
 
@@ -146,76 +147,6 @@
 
 </modal>
 
-<modal #detail [closeOnEscape]="false" [closeOnOutsideClick]="false">
-  <modal-header>
-    <h3>modal that cannot be simply closed</h3>
-  </modal-header>
-  <modal-content>
-
-    <div class="form-group">
-      <label class="control-label">Text</label>
-      <input type="text" class="form-control" placeholder="Text Input">
-      <label class="control-label">Password</label>
-      <input type="password" class="form-control" placeholder="Password Input">
-      <label class="control-label">With Help</label>
-      <input type="text" class="form-control" placeholder="With Help">
-      <span class="help-block sub-little-text">A block of help text that breaks onto a new line and may extend beyond one line.</span>
-      <label class="control-label">Small Input</label>
-      <input type="text" class="form-control form-control-sm" placeholder="Small Input">
-      <label class="control-label">Large Input</label>
-      <input type="text" class="form-control form-control-lg" placeholder="Large Input">
-      <label class="control-label">Disabled</label>
-      <input type="text" class="form-control" placeholder="Disabled Input" disabled>
-      <label class="control-label">Readonly</label>
-      <input type="text" class="form-control" placeholder="Readonly Input" readonly>
-      <label class="control-label">Textarea</label>
-      <textarea cols="0" rows="10" class="form-control" placeholder="Textarea"></textarea>
-    </div>
-
-  </modal-content>
-  <modal-footer>
-    <button class="btn btn-primary" (click)="closeModal(detail)">close</button>
-  </modal-footer>
-</modal>
-
-<modal #modification [closeOnEscape]="false" [closeOnOutsideClick]="false">
-  <modal-header>
-    <h3>MODIFICATION DE LA VENTE</h3>
-  </modal-header>
-
-  <modal-content>
-
-    <form #f="ngForm" (ngSubmit)="onSubmit(f, thirdModal)">
-
-      <div class="form-group">
-        <label class="control-label">Date de vente</label>
-        <input type="date" name="date_vente" class="form-control" placeholder="Date" [ngModel]="vente?.date_vente">
-
-        <label class="control-label">Prix</label>
-        <input type="number" min="0" name="prix_vente" class="form-control" placeholder="Prix de vente" [ngModel]="vente?.prix_vente">
-
-        <label class="control-label">Produit Disponible</label>
-        <select name="produit_id" [ngModel]="vente?.produit_id" id="select1" class="form-control" required>
-          <option *ngFor="let item of listProduit" [value]="item.id">{{item?.code_prod}}</option>
-        </select>
-
-      </div>
-
-      <div class="">
-
-        <button type="button" class="btn btn-default" (click)="closeModal(thirdModal)">Annuler</button>
-        <button type="submit" class="btn btn-success">Enregistrer</button>
-      </div>
-
-    </form>
-
-
-  </modal-content>
-
-  <modal-footer>
-  </modal-footer>
-</modal>
-
 <modal #supprission [closeOnEscape]="false" [closeOnOutsideClick]="false">
   <modal-header>
     <h3>ANNULATION DE LA VENTE</h3>
@@ -229,7 +160,7 @@
   </modal-content>
   <modal-footer>
     <button class="btn btn-primary" (click)="closeModal(supprission)">Non</button>
-    <button class="btn btn-danger" (click)="closeModal(supprission)">Oui</button>
+    <button class="btn btn-danger" (click)="annuler(supprission)">Oui</button>
   </modal-footer>
 </modal>
 
