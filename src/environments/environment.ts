@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  // url_serveur: "http://127.0.0.1:8000/api/"
-  url_serveur: "http://192.168.1.16:9000/api/"
+  url_serveur: "http://127.0.0.1:8000/api/"
+  // url_serveur: "http://192.168.1.16:9000/api/"
 };

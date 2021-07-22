@@ -1,3 +1,5 @@
+import { ListProduitComponent } from './list-produit/list-produit.component';
+import { UpdateProduitComponent } from './update-produit/update-produit.component';
 import { MaisonsComponent } from './maisons/maisons.component';
 import { TerrainsComponent } from './terrains/terrains.component';
 import { NgModule } from '@angular/core';
@@ -17,13 +19,22 @@ const routes: Routes = [{
       path: 'maisons',
       component: MaisonsComponent,
     },
+    {
+      path: 'list',
+      component: ListProduitComponent,
+    },
 
-    /*{
+    {
+      path: 'update/:id',
+      component: UpdateProduitComponent,
+    },
+
+    {
       path: '',
-      redirectTo: 'terrains',
+      redirectTo: 'list',
       pathMatch: 'full',
     }
-
+/*
     {
       path: 'tabs',
       component: TabsComponent,

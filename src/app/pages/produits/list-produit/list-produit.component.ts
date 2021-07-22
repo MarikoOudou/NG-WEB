@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Role } from '../../shared/constants/role';
-import { GetRequestService } from '../../shared/services/get-request.service';
-import { PostRequestService } from '../../shared/services/post-request.service';
+import { Role } from '../../../shared/constants/role';
+import { GetRequestService } from '../../../shared/services/get-request.service';
+import { PostRequestService } from '../../../shared/services/post-request.service';
 import swal from 'sweetalert2';
 
 @Component({
-  selector: 'ngx-produits',
-  templateUrl: './produits.component.html',
-  styleUrls: ['./produits.component.scss']
+  selector: 'app-list-produit',
+  templateUrl: './list-produit.component.html',
+  styleUrls: ['./list-produit.component.scss']
 })
-export class ProduitsComponent implements OnInit {
-
+export class ListProduitComponent implements OnInit {
 
   tableData: Array<any>;
   nameTable: string = "Liste des produits";
@@ -22,6 +21,7 @@ export class ProduitsComponent implements OnInit {
   pageNumber = 1;
   column : any = [
     'Code produit',
+    'libelle',
     'Type',
     'localité',
     'surface',
@@ -51,9 +51,32 @@ export class ProduitsComponent implements OnInit {
 
 
   ngOnInit() {
-    // this.getData();
-    // document.getElementById('text-output').innerHTML = this.defaultContent;
+    this.getData();
+    document.getElementById('text-output').innerHTML = this.defaultContent;
 
+  }
+
+  delect(modal) {
+    console.log(this.produit.id)
+    this.loading = true;
+    this._servicesGet.delectRequest('produits/' + this.produit.id).subscribe(
+      {
+        next: (x:any)=> {
+          if (x.success) {
+            this.loading = false;
+            this.produit = {};
+            this.onCloseSuccess();
+            this.getData();
+            this.getData();
+          }else {
+            this.onCloseError();
+            this.loading = false;
+            console.log(x)
+          }
+        }
+      }
+    )
+    modal.close();
   }
 
   onSelectFile(event, f: NgForm) {
@@ -191,6 +214,5 @@ export class ProduitsComponent implements OnInit {
       text: 'close it!',
     });
   }
-
 
 }

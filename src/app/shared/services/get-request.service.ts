@@ -25,7 +25,7 @@ export class GetRequestService {
   getRequest(data): Observable<any[]> {
     return this.http.get<any[]>(this.url+ data)
     .pipe(
-      tap(data => console.log('datas :', data))
+      tap(data => console.log('datas1 :', data))
     );
   }
 

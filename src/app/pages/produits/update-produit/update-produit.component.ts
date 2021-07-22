@@ -1,33 +1,24 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Role } from '../../shared/constants/role';
-import { GetRequestService } from '../../shared/services/get-request.service';
-import { PostRequestService } from '../../shared/services/post-request.service';
+import { Role } from '../../../shared/constants/role';
+import { GetRequestService } from '../../../shared/services/get-request.service';
+import { PostRequestService } from '../../../shared/services/post-request.service';
 import swal from 'sweetalert2';
 
 @Component({
-  selector: 'ngx-produits',
-  templateUrl: './produits.component.html',
-  styleUrls: ['./produits.component.scss']
+  selector: 'app-update-produit',
+  templateUrl: './update-produit.component.html',
+  styleUrls: ['./update-produit.component.scss']
 })
-export class ProduitsComponent implements OnInit {
-
+export class UpdateProduitComponent implements OnInit {
 
   tableData: Array<any>;
   nameTable: string = "Liste des produits";
   /* pagination Info */
   pageSize = 10;
   loading: boolean = true;
-  ajouter_produit: boolean =  false;
-  pageNumber = 1;
-  column : any = [
-    'Code produit',
-    'Type',
-    'localité',
-    'surface',
-    'prix',
-    'Actions',
-  ];
+
   roles: any = Role;
   produit: any = {};
   defaultContent = '<h3>Friday favorites - Homemade pizza</h3><p><br></p><p>Friday is finally here! I know it’s been an exhausting week and the last thing on your mind right</p><p> now is getting stuck in the kitchen preparing a snack to accompany you during your regular Netflix session.</p><img src="http://f10.baidu.com/it/u=870634439,1838112237&amp;fm=72">'
@@ -46,12 +37,17 @@ export class ProduitsComponent implements OnInit {
 
   constructor(
     //private _chartsService: ChartsService,
+    private routerActive: ActivatedRoute,
     private _servicesGet: GetRequestService,
     private _servicesPost: PostRequestService) { }
 
 
   ngOnInit() {
-    // this.getData();
+    this.routerActive.params.subscribe({
+      next: x => {
+        this.getData(x.id);
+      }
+    })
     // document.getElementById('text-output').innerHTML = this.defaultContent;
 
   }
@@ -102,12 +98,13 @@ export class ProduitsComponent implements OnInit {
     document.getElementById('text-output').innerHTML = event;
   }
 
-  getData() {
-    this._servicesGet.getRequest('produits').subscribe(
+  getData(id) {
+    this._servicesGet.getRequest('produits/' + id).subscribe(
       {
         next: (x: any) => {
-
-            this.tableData = x.datas;
+            this.urls[0] = x.datas.image
+            this.monfichier = x.datas.acd
+            this.produit = x.datas;
             this.loading = false;
 
         },
@@ -126,16 +123,16 @@ export class ProduitsComponent implements OnInit {
     data.user_id = this.getUser();
     console.log(data)
 
-    this._servicesPost.postRequest(data, "produits" ).subscribe({
+    this._servicesPost.putRequest(data, "produits/" + this.produit.id ).subscribe({
       next: (x: any) => {
         if(x.success) {
           // this.closeModal(thirdModal);
           this.onCloseSuccess();
           console.log('reponse success ', x)
           this.loading = false;
-          this.ajouter_produit = false;
-          form.resetForm();
-          this.getData();
+          // this.ajouter_produit = false;
+          // form.resetForm();
+          this.getData(this.produit.id);
           // this.getProduit();
         }else {
           // this.closeModal(thirdModal);
@@ -162,11 +159,6 @@ export class ProduitsComponent implements OnInit {
   }
 
 
-
-  pageChanged(pN: number): void {
-    this.pageNumber = pN;
-  }
-
   openModal(modal, data) {
     this.produit = data;
     modal.open();
@@ -191,6 +183,5 @@ export class ProduitsComponent implements OnInit {
       text: 'close it!',
     });
   }
-
 
 }

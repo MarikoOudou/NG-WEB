@@ -10,10 +10,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-modal';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SharedModule } from '../../shared/shared.module';
+import { DetailProduitComponent } from './detail-produit/detail-produit.component';
+import { UpdateProduitComponent } from './update-produit/update-produit.component';
+import { ListProduitComponent } from './list-produit/list-produit.component';
 
 
 @NgModule({
-  declarations: [ProduitsComponent, TerrainsComponent, MaisonsComponent],
+  declarations: [ProduitsComponent, TerrainsComponent,
+    MaisonsComponent, DetailProduitComponent, UpdateProduitComponent, ListProduitComponent],
   imports: [
     CommonModule,
     ProduitsRoutingModule,

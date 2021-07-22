@@ -1,0 +1,97 @@
+
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+
+      <div class="form-group">
+
+        <div class="row">
+          <div class="col-md-3">
+            <card cardTitle="Image du produit">
+              <!--<div class="col-md-12 form-group">
+                <img class="thumbnail" src="assets/images/avatar.jpg" alt="" sizes="" style="height: 26em; width: 26em;" srcset="">
+              </div>-->
+              <div class="m-auto">
+                <div *ngIf="produit?.image" style="display: block;text-align: center;">
+                  <img *ngFor="let url of urls" [src]="produit.image" style="max-width: 250px; max-height: 250px;" alt="">
+                </div>
+
+                <label class="control-label">Photo</label>
+                <input class="form-control mt-2" accept="image/x-png,image/gif,image/jpeg,image/jpg" type="file"
+                  name="image" (change)="onSelectImage($event, f)" ngModel required>
+              </div>
+                </card>
+          </div>
+          <div class="col-md-9">
+
+            <card>
+
+              <div class="col-md-6 form-group">
+                <label class="control-label">Libelle</label>
+                <input type="text" [ngModel]="produit?.libelle" name="libelle" class="form-control">
+              </div>
+
+
+              <div class="col-md-6 form-group">
+                <label class="control-label">Code produit</label>
+                <input type="text" name="code_prod" readonly [ngModel]="produit?.code_prod" class="form-control">
+              </div>
+
+              <div class="col-md-6 form-group">
+                <label class="control-label">Type</label>
+                <select name="types" [ngModel]="produit?.types" id="select1" class="form-control">
+                  <option value="maison">Maison</option>
+                  <option value="terrain">Terrain</option>
+                </select>
+              </div>
+
+              <div class="col-md-6 form-group">
+                <label class="control-label">Localité</label>
+                <input type="text" name="localite" [ngModel]="produit?.localite" class="form-control" placeholder="Localité">
+              </div>
+
+              <div class="col-md-6 form-group">
+                <label class="control-label">Surface</label>
+                <input type="text" name="surface" [ngModel]="produit?.surface" class="form-control" placeholder="Surface">
+              </div>
+
+              <div class="col-md-6 form-group">
+                <label class="control-label">Prix</label>
+                <input type="number" min="0" name="prix" [ngModel]="produit?.prix" class="form-control" placeholder="Prix">
+              </div>
+
+              <div class="col-md-6 form-group">
+                <label class="control-label">Localisation Long</label>
+                <input type="text" name="localisation_long" [ngModel]="produit?.localisation_long" class="form-control" placeholder="Localisation Long">
+              </div>
+
+              <div class="col-md-6 form-group">
+                <label class="control-label">Localisation Lat</label>
+                <input type="text" name="localisation_lat" [ngModel]="produit?.localisation_lat" class="form-control" placeholder="Localisation Lat">
+              </div>
+
+              <div class="col-md-12 form-group">
+                <label class="control-label">Ajouter le ACD</label>
+                <input type="file" name="acd"  (change)="onSelectFile($event, f)" ngModel class="form-control">
+              </div>
+
+              <div class="col-md-12 form-group">
+                <label class="control-label">Description</label>
+                <textarea class="form-control" name="description" [ngModel]="produit?.description" placeholder="Description"></textarea>
+              </div>
+            </card>
+          </div>
+
+
+
+          <div class="col-md-12 text-center">
+            <button type="submit" class="btn btn-lg btn-success">Enregistrer</button>
+          </div>
+
+        </div>
+
+
+
+
+      </div>
+
+
+    </form>

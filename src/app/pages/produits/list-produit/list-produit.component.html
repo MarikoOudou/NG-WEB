@@ -1,0 +1,370 @@
+
+<div class="btn-wrap division" style="margin-bottom: 3em;">
+  <button type="button" (click)="ajouter_produit == true? ajouter_produit = false: ajouter_produit = true" class="btn btn-success btn-with-icon">
+    <i class="fa fa-plus fa-fw"></i>Ajouter</button>
+
+</div>
+
+<div class="mt-5 mb-5" *ngIf="ajouter_produit" style="margin-bottom: 3em;">
+
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+
+    <div class="form-group">
+
+      <div class="row">
+        <div class="col-md-3">
+          <card cardTitle="Image du produit">
+            <!--<div class="col-md-12 form-group">
+              <img class="thumbnail" src="assets/images/avatar.jpg" alt="" sizes="" style="height: 26em; width: 26em;" srcset="">
+            </div>-->
+            <div class="m-auto">
+              <div *ngIf="urls && urls.length > 0" style="display: block;text-align: center;">
+                <img *ngFor="let url of urls" [src]="url" style="max-width: 250px; max-height: 250px;" alt="">
+              </div>
+
+              <label class="control-label">Photo</label>
+              <input class="form-control mt-2" accept="image/x-png,image/gif,image/jpeg,image/jpg" type="file"
+                name="image" (change)="onSelectImage($event, f)" ngModel required>
+            </div>
+              </card>
+        </div>
+        <div class="col-md-9">
+
+          <card>
+
+            <div class="col-md-6 form-group">
+              <label class="control-label">Libelle</label>
+              <input type="text" ngModel name="libelle" class="form-control">
+            </div>
+
+
+            <div class="col-md-6 form-group">
+              <label class="control-label">Code produit</label>
+              <input type="text" name="code_prod" readonly [ngModel]="code_terrain" class="form-control">
+            </div>
+
+            <div class="col-md-6 form-group">
+              <label class="control-label">Type</label>
+              <select name="types" ngModel id="select1" class="form-control">
+                <option value="maison">Maison</option>
+                <option value="terrain">Terrain</option>
+              </select>
+            </div>
+
+            <div class="col-md-6 form-group">
+              <label class="control-label">Localité</label>
+              <input type="text" name="localite" ngModel class="form-control" placeholder="Localité">
+            </div>
+
+            <div class="col-md-6 form-group">
+              <label class="control-label">Surface</label>
+              <input type="text" name="surface" ngModel class="form-control" placeholder="Surface">
+            </div>
+
+            <div class="col-md-6 form-group">
+              <label class="control-label">Prix</label>
+              <input type="number" min="0" name="prix" ngModel class="form-control" placeholder="Prix">
+            </div>
+
+            <div class="col-md-6 form-group">
+              <label class="control-label">Localisation Long</label>
+              <input type="text" name="localisation_long" ngModel class="form-control" placeholder="Localisation Long">
+            </div>
+
+            <div class="col-md-6 form-group">
+              <label class="control-label">Localisation Lat</label>
+              <input type="text" name="localisation_lat" ngModel class="form-control" placeholder="Localisation Lat">
+            </div>
+
+            <div class="col-md-12 form-group">
+              <label class="control-label">Ajouter le ACD</label>
+              <input type="file" name="acd"  (change)="onSelectFile($event, f)" ngModel class="form-control">
+            </div>
+
+            <div class="col-md-12 form-group">
+              <label class="control-label">Description</label>
+              <textarea class="form-control" name="description" ngModel placeholder="Description"></textarea>
+            </div>
+          </card>
+        </div>
+
+
+
+
+
+
+
+
+        <div class="col-md-12 text-center">
+          <button type="submit" class="btn btn-lg btn-success">Enregistrer</button>
+        </div>
+
+      </div>
+
+
+
+
+    </div>
+
+
+  </form>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <card [cardTitle]="nameTable">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th *ngFor="let item of column">{{ item }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let item of tableData | paginate: { id: 'pager', itemsPerPage: pageSize, currentPage: pageNumber};let index = index">
+            <td>{{item.code_prod}}</td>
+            <td>{{item.libelle}}</td>
+            <td>
+              <div [class]="
+              item.types == 'maison'?'label-info':
+              item.types == 'terrain'?'label-primary':'label-default'">
+              {{item.types | uppercase}}</div>
+            </td>
+            <td>{{item.localite}}</td>
+            <td>{{item.surface}}</td>
+            <td>{{item.prix + "CFA"}}</td>
+
+            <td>
+              <button class="btn btn-icon btn-default" (click)="openModal(detail, item)">
+                <i class="fa fa-eye fa-fw"></i>
+              </button>
+              <button class="btn btn-icon btn-primary" [routerLink]="['../update', item.id]">
+                <i class="fa fa-pencil fa-fw"></i>
+              </button>
+              <button class="btn btn-icon btn-danger" (click)="openModal(supprission, item)">
+                <i class="fa fa-trash fa-fw"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <form class="pagination-wrapper">
+        <div class="form-group pages">
+          <pagination-controls class="my-pagination" id="pager" (pageChange)="pageChanged($event)" maxSize="9"
+            directionLinks="true" autoHide="true" previousLabel="Retour" nextLabel="Suivant"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+          </pagination-controls>
+        </div>
+        <div class="form-group options pages">
+          <div class="input-group input-group-sm">
+            <select class="form-control" name="pageChangedName" [(ngModel)]="pageSize" (ngModelChange)="getData()">
+              <option>1</option>
+              <option>5</option>
+              <option>10</option>
+              <option>20</option>
+              <option>50</option>
+              <option>100</option>
+              <option>200</option>
+            </select>
+            <span class="input-group-addon addon-right">Line par page</span>
+          </div>
+        </div>
+      </form>
+    </card>
+  </div>
+</div>
+
+
+
+
+<modal #thirdModal [closeOnEscape]="false" [closeOnOutsideClick]="false">
+  <modal-header>
+    <h3>CREATION DE COMPTE UTILISATEUR</h3>
+  </modal-header>
+
+  <modal-content>
+
+    <form #f="ngForm" (ngSubmit)="onSubmit(f, thirdModal)">
+
+      <div class="form-group">
+
+
+        <label class="control-label">Image du produit</label>
+        <div></div>
+        <input type="file" name="image" ngModel class="form-control">
+
+        <label class="control-label">Code prod</label>
+        <input type="text" name="code_prod" [ngModel]="'terrain001'" class="form-control" disabled>
+
+        <label class="control-label">Type</label>
+        <select name="role" ngModel id="select1" class="form-control">
+          <option value="maison">Maison</option>
+          <option value="terrain">Terrain</option>
+        </select>
+
+        <label class="control-label">Localité</label>
+        <input type="text" name="localite" ngModel class="form-control" placeholder="Localité">
+
+        <label class="control-label">Surface</label>
+        <input type="text" name="surface" ngModel class="form-control" placeholder="Surface">
+
+        <label class="control-label">Prix</label>
+        <input type="number" min="0" name="prix" ngModel class="form-control" placeholder="Prix">
+
+        <label class="control-label">Localisation Long</label>
+        <input type="text" name="localisation_long" ngModel class="form-control" placeholder="Localisation Long">
+
+        <label class="control-label">Localisation Lat</label>
+        <input type="text" name="localisation_lat" ngModel class="form-control" placeholder="Localisation Lat">
+
+        <label class="control-label">Description</label>
+        <card cardTitle="pell editor">
+          <div class="row">
+            <div class="col-md-12">
+              <pell-editor [defaultContent]="defaultContent" (content)="onContentChange($event)"></pell-editor>
+            </div>
+          </div>
+        </card>
+
+
+      </div>
+
+      <div class="">
+
+        <button type="button" class="btn btn-default" (click)="closeModal(thirdModal)">Annuler</button>
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+      </div>
+
+    </form>
+
+
+  </modal-content>
+
+  <modal-footer>
+  </modal-footer>
+
+</modal>
+
+<modal #detail modalClass="modal-lg" [closeOnEscape]="false" [closeOnOutsideClick]="false">
+  <modal-header>
+    <h3>INFORMATION DU PRODUIT</h3>
+  </modal-header>
+  <modal-content>
+
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+
+      <div class="form-group">
+
+        <div class="row">
+          <div class="col-md-12">
+            <card cardTitle="Image du produit">
+              <!--<div class="col-md-12 form-group">
+                <img class="thumbnail" src="assets/images/avatar.jpg" alt="" sizes="" style="height: 26em; width: 26em;" srcset="">
+              </div>-->
+              <div class="m-auto">
+                <div *ngIf="produit?.image" style="display: block;text-align: center;">
+                  <img [src]="produit.image" style="max-width: 250px; max-height: 250px;" alt="">
+                </div>
+
+                <!--<label class="control-label">Photo</label>
+                <input class="form-control mt-2" accept="image/x-png,image/gif,image/jpeg,image/jpg" type="file"
+                  name="image" (change)="onSelectImage($event, f)" ngModel required>-->
+              </div>
+                </card>
+
+            <card>
+
+              <div class="col-md-6 form-group">
+                <label class="control-label">Libelle</label>
+                <input type="text" [ngModel]="produit?.libelle" name="libelle" class="form-control" disabled>
+              </div>
+
+
+              <div class="col-md-6 form-group">
+                <label class="control-label">Code produit</label>
+                <input type="text" name="code_prod" readonly [ngModel]="produit?.code_prod" class="form-control">
+              </div>
+
+              <div class="col-md-6 form-group">
+                <label class="control-label">Type</label>
+                <select name="types" [ngModel]="produit?.types" id="select1" class="form-control" disabled>
+                  <option value="maison">Maison</option>
+                  <option value="terrain">Terrain</option>
+                </select>
+              </div>
+
+              <div class="col-md-6 form-group">
+                <label class="control-label">Localité</label>
+                <input type="text" name="localite" [ngModel]="produit?.localite" class="form-control" placeholder="Localité" disabled>
+              </div>
+
+              <div class="col-md-6 form-group">
+                <label class="control-label">Surface</label>
+                <input type="text" name="surface" [ngModel]="produit?.surface" class="form-control" placeholder="Surface" disabled>
+              </div>
+
+              <div class="col-md-6 form-group">
+                <label class="control-label">Prix</label>
+                <input type="number" min="0" name="prix" [ngModel]="produit?.prix" class="form-control" placeholder="Prix" disabled>
+              </div>
+
+              <div class="col-md-6 form-group">
+                <label class="control-label">Localisation Long</label>
+                <input type="text" name="localisation_long" [ngModel]="produit?.localisation_long" class="form-control" placeholder="Localisation Long" disabled>
+              </div>
+
+              <div class="col-md-6 form-group">
+                <label class="control-label">Localisation Lat</label>
+                <input type="text" name="localisation_lat" [ngModel]="produit?.localisation_lat" class="form-control" placeholder="Localisation Lat" disabled>
+              </div>
+
+              <!--<div class="col-md-12 form-group">
+                <label class="control-label">Ajouter le ACD</label>
+                <input type="file" name="acd"  (change)="onSelectFile($event, f)" [ngModel]="produit?.acd" class="form-control">
+              </div>-->
+
+              <div class="col-md-12 form-group">
+                <label class="control-label">Description</label>
+                <textarea class="form-control" name="description" [ngModel]="produit?.description" placeholder="Description"></textarea>
+              </div>
+            </card>
+          </div>
+
+
+
+          <!--<div class="col-md-12 text-center">
+            <button type="submit" class="btn btn-lg btn-success">Enregistrer</button>
+          </div>-->
+
+        </div>
+
+      </div>
+
+
+    </form>
+
+  </modal-content>
+  <modal-footer>
+    <button class="btn btn-primary" (click)="closeModal(detail)">FERMER</button>
+  </modal-footer>
+</modal>
+
+<modal #supprission [closeOnEscape]="false" [closeOnOutsideClick]="false">
+  <modal-header>
+    <h3>SUPPRESSION D'UN PRODUIT</h3>
+  </modal-header>
+  <modal-content>
+
+    <h3>
+      Vous-voulez supprimer cet produit ?
+    </h3>
+
+  </modal-content>
+  <modal-footer>
+    <button class="btn btn-default" (click)="closeModal(supprission)">NON</button>
+    <button class="btn btn-primary" (click)="delect(supprission)">OUI</button>
+  </modal-footer>
+</modal>
+
+<loading [loading]="loading"></loading>
