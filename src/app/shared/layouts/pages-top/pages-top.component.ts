@@ -8,8 +8,8 @@ import {GlobalService} from '../../services/global.service';
 })
 export class PagesTopComponent implements AfterViewInit {
   avatarImgSrc: string = 'assets/images/avatar.jpg';
-  userName: string = 'Bknds';
-  userPost: string = 'FrontEnd';
+  @Input() userName: string = 'Administrateur';
+  @Input() userPost: string = '';
 
 
   sidebarToggle: boolean = true;

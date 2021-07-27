@@ -1,8 +1,8 @@
 <div class="pages-wrap">
-  <pages-top></pages-top>
+  <pages-top [userName]="profile.user.name" [userPost]="profile.user.role"></pages-top>
   <div class="pages-body">
     <sidebar></sidebar>
-    
+
     <div class="pages-content">
       <content-top></content-top>
       <router-outlet></router-outlet>

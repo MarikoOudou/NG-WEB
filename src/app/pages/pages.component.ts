@@ -6,4 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./pages.component.scss']
 })
 
-export class PagesComponent { }
+export class PagesComponent {
+
+  profile:any;
+
+  constructor() {
+    this.profile =  JSON.parse(localStorage.getItem('user_profil'));
+    console.log('user : ', this.profile)
+  }
+}
