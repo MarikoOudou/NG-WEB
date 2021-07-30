@@ -1,3 +1,4 @@
+import { NgxImageCompressService } from 'ngx-image-compress';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { GetRequestService } from '../../../shared/services/get-request.service';
@@ -44,14 +45,18 @@ export class ArticleComponent implements OnInit {
   sliders: any;
   tabledata: any;
   article: any;
-  urls: any[] = [];
+  urls: any = "";
   images: any[] = [];
   sizeFile: any = [];
   ajouter_article:boolean = false
   categories: any;
 
+  imgResultBeforeCompress:string;
+  imgResultAfterCompress:string;
+
   constructor(
     //private _chartsService: ChartsService,
+    private imageCompress: NgxImageCompressService,
     private _servicesGet: GetRequestService,
     private _servicesPost: PostRequestService) { }
 
@@ -62,12 +67,30 @@ export class ArticleComponent implements OnInit {
 
   }
 
+  compressFile() {
+
+    this.imageCompress.uploadFile().then(({image, orientation}) => {
+
+      this.imgResultBeforeCompress = image;
+      console.warn('Size in bytes was:', this.imageCompress.byteCount(image));
+
+      this.imageCompress.compressFile(image, orientation, 50, 50).then(
+        result => {
+          this.urls = this.imgResultAfterCompress = result;
+          console.warn('Size in bytes is now:', this.imageCompress.byteCount(result));
+        }
+      );
+
+    });
+
+  }
+
   onSubmit(form: NgForm) {
     let date_jour = this.getDay();
     this.showloading = true;
     console.log(form.value)
     let data = form.value;
-    data.image = this.urls[0]
+    data.image = this.urls
     data.user_id = this.getUser();
     console.log("data ", data)
     this._servicesPost.postRequest(data, "post").subscribe(
@@ -76,11 +99,17 @@ export class ArticleComponent implements OnInit {
           if (x.success) {
             console.log(x)
             this.showloading = false;
-          this.getData();
+            form.resetForm();
+            this.urls = ""
+            this.ajouter_article = false;
+            this.getData();
             this.onCloseSuccess();
           }else {
             console.log(x)
             this.showloading = false;
+            // form.resetForm();
+            // this.urls = ""
+            // this.ajouter_article = false;
             this.onCloseError();
 
           }

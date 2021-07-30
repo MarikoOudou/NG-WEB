@@ -10,13 +10,15 @@
                 <img class="thumbnail" src="assets/images/avatar.jpg" alt="" sizes="" style="height: 26em; width: 26em;" srcset="">
               </div>-->
               <div class="m-auto">
-                <div *ngIf="produit?.image" style="display: block;text-align: center;">
-                  <img *ngFor="let url of urls" [src]="produit.image" style="max-width: 250px; max-height: 250px;" alt="">
+                <div *ngIf="urls" style="display: block;text-align: center;">
+                  <img [src]="urls" style="max-width: 250px; max-height: 250px;" alt="">
                 </div>
 
                 <label class="control-label">Photo</label>
-                <input class="form-control mt-2" accept="image/x-png,image/gif,image/jpeg,image/jpg" type="file"
-                  name="image" (change)="onSelectImage($event, f)" ngModel required>
+
+              <div class="form-control mt-2" (click)="compressFile()">Télécharger l'image</div>
+                <!--<input class="form-control mt-2" accept="image/x-png,image/gif,image/jpeg,image/jpg" type="file"
+                  name="image" (change)="onSelectImage($event, f)" ngModel required>-->
               </div>
                 </card>
           </div>
@@ -95,3 +97,4 @@
 
 
     </form>
+    <loading [loading]="loading"></loading>

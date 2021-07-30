@@ -5,8 +5,8 @@ import { PagesModule } from './pages/pages.module';
 import { routing } from './app.routing';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { HttpClientModule } from '@angular/common/http';
+import {NgxImageCompressService} from 'ngx-image-compress';
 
 @NgModule({
   imports: [
@@ -14,11 +14,13 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     FormsModule,
     PagesModule,HttpClientModule,
-    routing
+    routing,
+
   ],
   declarations: [
     AppComponent,
   ],
+  providers: [NgxImageCompressService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

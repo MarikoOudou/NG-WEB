@@ -5,6 +5,8 @@ import { GetRequestService } from '../../../shared/services/get-request.service'
 import { PostRequestService } from '../../../shared/services/post-request.service';
 import swal from 'sweetalert2';
 
+import {NgxImageCompressService} from 'ngx-image-compress';
+
 @Component({
   selector: 'app-list-produit',
   templateUrl: './list-produit.component.html',
@@ -31,7 +33,7 @@ export class ListProduitComponent implements OnInit {
   roles: any = Role;
   produit: any = {};
   defaultContent = '<h3>Friday favorites - Homemade pizza</h3><p><br></p><p>Friday is finally here! I know it’s been an exhausting week and the last thing on your mind right</p><p> now is getting stuck in the kitchen preparing a snack to accompany you during your regular Netflix session.</p><img src="http://f10.baidu.com/it/u=870634439,1838112237&amp;fm=72">'
-  urls: any[] = [];
+  urls: any = "";
   images: any[] = [];
   sizeFile: any;
   monfichier: string;
@@ -42,17 +44,36 @@ export class ListProduitComponent implements OnInit {
                   new Date().getMinutes() +
                   new Date().getMilliseconds();
   // produit: any = {};
-
+  imgResultBeforeCompress:string;
+  imgResultAfterCompress:string;
 
   constructor(
     //private _chartsService: ChartsService,
+    private imageCompress: NgxImageCompressService,
     private _servicesGet: GetRequestService,
     private _servicesPost: PostRequestService) { }
 
 
   ngOnInit() {
     this.getData();
-    document.getElementById('text-output').innerHTML = this.defaultContent;
+    //document.getElementById('text-output').innerHTML = this.defaultContent;
+  }
+
+  compressFile() {
+
+    this.imageCompress.uploadFile().then(({image, orientation}) => {
+
+      this.imgResultBeforeCompress = image;
+      console.warn('Size in bytes was:', this.imageCompress.byteCount(image));
+
+      this.imageCompress.compressFile(image, orientation, 50, 50).then(
+        result => {
+          this.urls = this.imgResultAfterCompress = result;
+          console.warn('Size in bytes is now:', this.imageCompress.byteCount(result));
+        }
+      );
+
+    });
 
   }
 
@@ -97,7 +118,7 @@ export class ListProduitComponent implements OnInit {
     }
 
   }
-
+/*
   onSelectImage(event, f: NgForm) {
     this.urls = [];
     this.images = [];
@@ -119,7 +140,7 @@ export class ListProduitComponent implements OnInit {
     // console.log(this.urls[0]);
     // this.sizeFile = this.images[0].size;
 
-  }
+  }*/
 
   onContentChange(event: string) {
     document.getElementById('text-output').innerHTML = event;
@@ -143,7 +164,7 @@ export class ListProduitComponent implements OnInit {
   onSubmit(form: NgForm) {
     this.loading = true;
     let data = form.value;
-    data.image = this.urls[0]
+    data.image = this.urls
     data.acd = this.monfichier
     data.active = true;
     data.user_id = this.getUser();
@@ -158,6 +179,7 @@ export class ListProduitComponent implements OnInit {
           this.loading = false;
           this.ajouter_produit = false;
           form.resetForm();
+          this.urls = ""
           this.getData();
           // this.getProduit();
         }else {

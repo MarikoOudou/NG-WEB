@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import {AfterViewInit, Component, Input} from '@angular/core';
 import {GlobalService} from '../../services/global.service';
 
@@ -15,7 +16,12 @@ export class PagesTopComponent implements AfterViewInit {
   sidebarToggle: boolean = true;
   tip = {ring: true, email: true};
 
-  constructor(private _globalService: GlobalService) {
+  constructor(private _globalService: GlobalService, private router: Router) {
+  }
+
+  deconnexion() {
+    localStorage.removeItem("user_profil");
+    this.router.navigate(["login"])
   }
 
   public _sidebarToggle() {

@@ -16,13 +16,14 @@
           <div class="form-group">
 
             <div class="m-auto">
-              <div *ngIf="urls && urls.length > 0" style="display: block;text-align: center;">
-                <img *ngFor="let url of urls" [src]="url" style="max-width: 250px; max-height: 250px;" alt="">
+              <div *ngIf="urls" style="display: block;text-align: center;">
+                <img [src]="urls" style="max-width: 250px; max-height: 250px;" alt="">
               </div>
 
-              <label class="control-label">Image du slider</label>
-              <input class="form-control mt-2" accept="image/x-png,image/gif,image/jpeg,image/jpg" type="file"
-                name="image" (change)="onSelectFile($event, f)" ngModel required>
+              <label class="control-label">Photo</label>
+              <div class="form-control mt-2" (click)="compressFile()">Télécharger l'image</div>
+              <!--<input class="form-control mt-2" accept="image/x-png,image/gif,image/jpeg,image/jpg" type="file"
+                name="image" (change)="onSelectFile($event, f)" ngModel required>-->
             </div>
 
             <label class="control-label">Title</label>
@@ -139,13 +140,14 @@
           <div class="form-group">
 
             <div class="m-auto">
-              <div *ngIf="urls && urls.length > 0" style="display: block;text-align: center;">
-                <img *ngFor="let url of urls" [src]="url" style="max-width: 250px; max-height: 250px;" alt="">
+              <div *ngIf="urls" style="display: block;text-align: center;">
+                <img [src]="urls" style="max-width: 250px; max-height: 250px;" alt="">
               </div>
 
               <label class="control-label">Photo</label>
-              <input class="form-control mt-2" accept="image/x-png,image/gif,image/jpeg,image/jpg" type="file"
-                name="image" (change)="onSelectFile($event, f)" ngModel required>
+              <div class="form-control mt-2" (click)="compressFile()">Télécharger l'image</div>
+              <!--<input class="form-control mt-2" accept="image/x-png,image/gif,image/jpeg,image/jpg" type="file"
+                name="image" (change)="onSelectFile($event, f)" ngModel required>-->
             </div>
 
             <label class="control-label">Nom Complet</label>
@@ -267,13 +269,14 @@
           <div class="form-group">
 
             <div class="m-auto">
-              <div *ngIf="urls && urls.length > 0" style="display: block;text-align: center;">
-                <img *ngFor="let url of urls" [src]="url" style="max-width: 250px; max-height: 250px;" alt="">
+              <div *ngIf="urls" style="display: block;text-align: center;">
+                <img [src]="urls" style="max-width: 250px; max-height: 250px;" alt="">
               </div>
 
               <label class="control-label">Photo</label>
-              <input class="form-control mt-2" accept="image/x-png,image/gif,image/jpeg,image/jpg" type="file"
-                name="image" (change)="onSelectFile($event, f)" ngModel required>
+              <div class="form-control mt-2" (click)="compressFile()">Télécharger l'image</div>
+              <!--<input class="form-control mt-2" accept="image/x-png,image/gif,image/jpeg,image/jpg" type="file"
+                name="image" (change)="onSelectFile($event, f)" ngModel required>-->
             </div>
 
             <label class="control-label">Nom Complet</label>

@@ -3,6 +3,7 @@ import { GetRequestService } from '../../shared/services/get-request.service';
 import { PostRequestService } from '../../shared/services/post-request.service';
 import swal from 'sweetalert2';
 import { NgForm } from '@angular/forms';
+import pell from 'pell';
 
 @Component({
   selector: 'ngx-ventes',
@@ -10,6 +11,12 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./ventes.component.scss']
 })
 export class VentesComponent implements OnInit {
+
+  public value: any = ['Athens'];
+  public _disabledV: string = '0';
+  public disabled: boolean = false;
+
+
 
   tableData: any = [];
   column : any = [
@@ -25,17 +32,42 @@ export class VentesComponent implements OnInit {
   showloading: boolean = true;
   listProduit: any = [];
   vente: any;
+  public items: any[] = [];
 
   constructor(
     //private _chartsService: ChartsService,
     private _servicesGet: GetRequestService,
-    private _servicesPost: PostRequestService) { }
+    private _servicesPost: PostRequestService) {
+
+    }
 
 
   ngOnInit() {
+    // this.getProduit();
     this.getData();
-    this.getProduit();
 
+  }
+
+
+
+  public selected(value: any): void {
+    console.log('Selected value is: ', value);
+  }
+
+  public removed(value: any): void {
+    console.log('Removed value is: ', value);
+  }
+
+  public refreshValue(value: any): void {
+    this.value = value;
+    console.log(value)
+  }
+
+  public itemsToString(value: Array<any> = []): string {
+    return value
+      .map((item: any) => {
+        return item.text;
+      }).join(',');
   }
 
   onSubmit(form: NgForm, thirdModal: any) {
@@ -43,7 +75,10 @@ export class VentesComponent implements OnInit {
     this.showloading = true;
     console.log(form)
 
-    let data = form.value;
+    let data: any = {};
+    console.log(form.value)
+    data.prix_vente = form.value.prix_vente
+    data.produit_id = form.value.produit[0].id
     data.date_vente = date_jour;
     data.user_id = this.getUser();
 
@@ -56,9 +91,12 @@ export class VentesComponent implements OnInit {
           this.onCloseSuccess();
           console.log('reponse success ', x)
           this.showloading = false;
+          this.tableData = [];
+          this.listProduit = [];
+          this.items = [];
           form.resetForm();
           this.getData();
-          this.getProduit();
+          // this.getProduit();
         }else {
           this.closeModal(thirdModal);
           this.onCloseError();
@@ -93,8 +131,21 @@ export class VentesComponent implements OnInit {
     this._servicesGet.getRequest('ventes').subscribe(
       {
         next: (x: any) => {
+          console.log(x)
+            console.log("x.datas", x.datas)
+            this.tableData = x.datas.ventes;
+            this.listProduit = x.datas.produits;
+            x.datas.produits.forEach((element: any) => {
+              console.log(element.code_prod)
 
-            this.tableData = x.datas;
+              this.items.push(
+                {
+                  id: element.id,
+                  text: element.libelle + " " + element.code_prod
+                }
+              )
+            });
+            // this.listeproduit(this.listProduit);
             this.showloading = false;
 
         },
@@ -169,6 +220,9 @@ export class VentesComponent implements OnInit {
       title: 'Error!',
       text: 'close it!',
     });
+  }
+  public typed(value: any): void {
+    console.log('New search input: ', value);
   }
 
   getUser() {

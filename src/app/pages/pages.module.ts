@@ -1,3 +1,4 @@
+import { AuthGuard } from './../guards/auth.guard';
 import { FormModule } from './form/form.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -12,6 +13,7 @@ import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-modal';
 import { NgxPaginationModule } from 'ngx-pagination';
+
 
 @NgModule({
     imports: [
@@ -29,6 +31,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
     declarations: [
         PagesComponent,
         LoginComponent
+    ],
+    providers: [
+      AuthGuard
     ]
 })
 export class PagesModule { }

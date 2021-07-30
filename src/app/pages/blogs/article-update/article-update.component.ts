@@ -1,3 +1,4 @@
+import { NgxImageCompressService } from 'ngx-image-compress';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -14,13 +15,18 @@ export class ArticleUpdateComponent implements OnInit {
   showloading: boolean;
   article: any;
   tabledata: any;
-  urls: any[]=[];
+  urls: any ="";
   images: any[];
   sizeFile: any;
   id: string;
   categories: any;
 
+  imgResultBeforeCompress:string;
+  imgResultAfterCompress:string;
+
   constructor(
+    //private _chartsService: ChartsService,
+    private imageCompress: NgxImageCompressService,
     private routerActive: ActivatedRoute,
     private router: Router,
     private _servicesGet: GetRequestService,
@@ -32,19 +38,19 @@ export class ArticleUpdateComponent implements OnInit {
         next: x => {
           console.log(x)
           this.id = x.id
-          this.getData(x.id)
-          this.getDataCategorie()
+          this.getDataCategorie(x.id)
         }
       }
     )
   }
 
-  getDataCategorie() {
+  getDataCategorie(data) {
     this._servicesGet.getRequest('category').subscribe(
       {
         next: (x: any) => {
 
             this.categories = x.datas;
+            this.getData(data)
             this.showloading = false;
 
         },
@@ -99,6 +105,26 @@ export class ArticleUpdateComponent implements OnInit {
       text: 'close it!',
     });
   }
+
+
+  compressFile() {
+
+    this.imageCompress.uploadFile().then(({image, orientation}) => {
+
+      this.imgResultBeforeCompress = image;
+      console.warn('Size in bytes was:', this.imageCompress.byteCount(image));
+
+      this.imageCompress.compressFile(image, orientation, 50, 50).then(
+        result => {
+          this.urls = this.imgResultAfterCompress = result;
+          console.warn('Size in bytes is now:', this.imageCompress.byteCount(result));
+        }
+      );
+
+    });
+
+  }
+
   onSubmitUpdate(form: NgForm){
     let date_jour = this.getDay();
     this.showloading = true;
@@ -106,7 +132,7 @@ export class ArticleUpdateComponent implements OnInit {
 
     let data = form.value;
     data.user_id = this.getUser();
-    data.image = this.urls[0]
+    data.image = this.urls
     this._servicesPost.putRequest(data, "post/" + this.article.id).subscribe(
       {
         next: (x: any)=> {
@@ -159,7 +185,7 @@ export class ArticleUpdateComponent implements OnInit {
 
             this.article = x.datas;
             console.log(x.datas)
-            this.urls[0] = x.datas.image
+            this.urls = x.datas.image
             this.showloading = false;
 
         },

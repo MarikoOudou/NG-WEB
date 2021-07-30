@@ -44,6 +44,8 @@
     </div>
   </div>
 </div>-->
+<!--<pell-editor [defaultContent]="'allo'"></pell-editor>-->
+
 
 <div class="btn-wrap division">
   <button type="button" (click)="thirdModal.open()" class="btn btn-success btn-with-icon">
@@ -62,7 +64,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of tableData | paginate: { id: 'pager', itemsPerPage: pageSize, currentPage: pageNumber};let index = index">
+          <tr
+            *ngFor="let item of tableData | paginate: { id: 'pager', itemsPerPage: pageSize, currentPage: pageNumber};let index = index">
             <td>{{item?.date_vente | date: 'dd/M/yyyy'}}</td>
             <td>{{item?.prix_vente + " CFA"}}</td>
             <td>{{item?.code_prod}}</td>
@@ -83,8 +86,9 @@
       </table>
       <form class="pagination-wrapper">
         <div class="form-group pages">
-          <pagination-controls class="my-pagination" id="pager" (pageChange)="pageChanged($event)" maxSize="9" directionLinks="true"
-            autoHide="true" previousLabel="Prev" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+          <pagination-controls class="my-pagination" id="pager" (pageChange)="pageChanged($event)" maxSize="9"
+            directionLinks="true" autoHide="true" previousLabel="Prev" nextLabel="Next"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
             screenReaderCurrentLabel="You're on page">
           </pagination-controls>
         </div>
@@ -122,12 +126,22 @@
         <input type="date" name="date_vente" ngModel class="form-control" placeholder="Date" required>-->
 
         <label class="control-label">Prix</label>
-        <input type="number" min="0" name="prix_vente" ngModel class="form-control" placeholder="Prix de vente" required>
+        <input type="number" min="0" name="prix_vente" ngModel class="form-control" placeholder="Prix de vente"
+          required>
 
+        <div *ngIf="items.length > 0">
         <label class="control-label">Produit Disponible</label>
+          <ng-select ngModel name="produit" [allowClear]="true" [items]="items" (data)="refreshValue($event)" (selected)="selected($event)"
+            (removed)="removed($event)" (typed)="typed($event)" placeholder="liste des Produits Disponible">
+
+          </ng-select>
+        </div>
+
+
+        <!--<label class="control-label">Produit Disponible</label>
         <select name="produit_id" ngModel class="form-control" required>
           <option *ngFor="let item of listProduit" [value]="item.id">{{item.code_prod}}</option>
-        </select>
+        </select>-->
 
       </div>
 
@@ -153,9 +167,9 @@
   </modal-header>
   <modal-content>
 
-  <h4>
-    Voulez-vous annulez la vente ?
-  </h4>
+    <h4>
+      Voulez-vous annulez la vente ?
+    </h4>
 
   </modal-content>
   <modal-footer>

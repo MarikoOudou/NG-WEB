@@ -11,7 +11,7 @@ export const childRoutes: Routes = [
     {
         path: 'pages',
         component: PagesComponent,
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
         children: [
             // { path: '', redirectTo: 'index', pathMatch: 'full' },
             { path: 'index', loadChildren: './index/index.module#IndexModule' },

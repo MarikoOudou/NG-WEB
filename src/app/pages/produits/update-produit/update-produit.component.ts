@@ -5,6 +5,8 @@ import { Role } from '../../../shared/constants/role';
 import { GetRequestService } from '../../../shared/services/get-request.service';
 import { PostRequestService } from '../../../shared/services/post-request.service';
 import swal from 'sweetalert2';
+import {NgxImageCompressService} from 'ngx-image-compress';
+
 
 @Component({
   selector: 'app-update-produit',
@@ -22,7 +24,7 @@ export class UpdateProduitComponent implements OnInit {
   roles: any = Role;
   produit: any = {};
   defaultContent = '<h3>Friday favorites - Homemade pizza</h3><p><br></p><p>Friday is finally here! I know it’s been an exhausting week and the last thing on your mind right</p><p> now is getting stuck in the kitchen preparing a snack to accompany you during your regular Netflix session.</p><img src="http://f10.baidu.com/it/u=870634439,1838112237&amp;fm=72">'
-  urls: any[] = [];
+  urls: any = "";
   images: any[] = [];
   sizeFile: any;
   monfichier: string;
@@ -33,11 +35,14 @@ export class UpdateProduitComponent implements OnInit {
                   new Date().getMinutes() +
                   new Date().getMilliseconds();
   // produit: any = {};
+  imgResultBeforeCompress:string;
+  imgResultAfterCompress:string;
 
 
   constructor(
     //private _chartsService: ChartsService,
     private routerActive: ActivatedRoute,
+    private imageCompress: NgxImageCompressService,
     private _servicesGet: GetRequestService,
     private _servicesPost: PostRequestService) { }
 
@@ -49,6 +54,25 @@ export class UpdateProduitComponent implements OnInit {
       }
     })
     // document.getElementById('text-output').innerHTML = this.defaultContent;
+
+  }
+
+  compressFile() {
+
+    this.imageCompress.uploadFile().then(({image, orientation}) => {
+
+      this.imgResultBeforeCompress = image;
+
+      console.warn('Size in bytes was:', this.imageCompress.byteCount(image));
+
+      this.imageCompress.compressFile(image, orientation, 50, 50).then(
+        result => {
+          this.urls = this.imgResultAfterCompress = result;
+          console.warn('Size in bytes is now:', this.imageCompress.byteCount(result));
+        }
+      );
+
+    });
 
   }
 
@@ -102,7 +126,7 @@ export class UpdateProduitComponent implements OnInit {
     this._servicesGet.getRequest('produits/' + id).subscribe(
       {
         next: (x: any) => {
-            this.urls[0] = x.datas.image
+            this.urls = x.datas.image
             this.monfichier = x.datas.acd
             this.produit = x.datas;
             this.loading = false;
@@ -117,7 +141,7 @@ export class UpdateProduitComponent implements OnInit {
   onSubmit(form: NgForm) {
     this.loading = true;
     let data = form.value;
-    data.image = this.urls[0]
+    data.image = this.urls
     data.acd = this.monfichier
     data.active = true;
     data.user_id = this.getUser();

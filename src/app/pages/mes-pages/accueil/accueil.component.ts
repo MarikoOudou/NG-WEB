@@ -1,3 +1,4 @@
+import { NgxImageCompressService } from 'ngx-image-compress';
 import { Slider } from './../../../shared/models/slider';
 import { Component, OnInit } from '@angular/core';
 import swal from 'sweetalert2';
@@ -41,11 +42,14 @@ export class AccueilComponent implements OnInit {
   vente: any;
   sliders: any;
   slider: any;
-  urls: any[] = [];
+  urls: any = "";
   dataUpdate: any = {}
+  imgResultBeforeCompress:string;
+  imgResultAfterCompress:string;
 
   constructor(
     //private _chartsService: ChartsService,
+    private imageCompress: NgxImageCompressService,
     private _servicesGet: GetRequestService,
     private _servicesPost: PostRequestService) { }
 
@@ -65,7 +69,8 @@ export class AccueilComponent implements OnInit {
     let date_jour = this.getDay();
     this.showloading = true;
     let data = form.value;
-    data.image = this.urls[0]
+    data.image = this.urls
+
     data.user_id = this.getUser();
     console.log(data)
 
@@ -147,7 +152,7 @@ export class AccueilComponent implements OnInit {
     let date_jour = this.getDay();
     this.showloading = true;
     let data = form.value;
-    data.image = this.urls[0]
+    data.image = this.urls
     data.user_id = this.getUser();
     console.log(data)
 
@@ -229,7 +234,7 @@ export class AccueilComponent implements OnInit {
     let date_jour = this.getDay();
     this.showloading = true;
     let data = form.value;
-    data.image = this.urls[0]
+    data.image = this.urls
     data.user_id = this.getUser();
     console.log(data)
 
@@ -332,7 +337,7 @@ export class AccueilComponent implements OnInit {
       }
     );
   }
-
+/*
   onSelectFile(event, f: NgForm) {
     this.urls = [];
     this.images = [];
@@ -353,6 +358,24 @@ export class AccueilComponent implements OnInit {
     // console.log(this.images[0].size);
     this.sizeFile = this.images[0].size;
 
+  }*/
+
+  compressFile() {
+
+    this.imageCompress.uploadFile().then(({image, orientation}) => {
+
+      this.imgResultBeforeCompress = image;
+      console.warn('Size in bytes was:', this.imageCompress.byteCount(image));
+
+      this.imageCompress.compressFile(image, orientation, 50, 50).then(
+        result => {
+          this.urls = this.imgResultAfterCompress = result;
+          console.warn('Size in bytes is now:', this.imageCompress.byteCount(result));
+        }
+      );
+
+    });
+
   }
 
 
@@ -363,10 +386,10 @@ export class AccueilComponent implements OnInit {
   openModal(modal, data) {
     console.log(modal)
     if (data != {}) {
-      this.urls[0] = data.image
+      this.urls = data.image
       this.dataUpdate = data;
     } else {
-      this.urls[0] = ""
+      this.urls = ""
       this.dataUpdate = {}
     }
     modal.open();

@@ -40,3 +40,13 @@
         color: lighten($fonts-color, 30%);
     }
 }
+
+.logo {
+  display: block;
+  margin: auto;
+  text-align: center;
+}
+
+.logo img {
+  width: 10em;
+}

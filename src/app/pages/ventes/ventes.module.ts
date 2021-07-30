@@ -8,6 +8,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SharedModule } from '../../shared/shared.module';
 import { LayoutModule } from '../../shared/layout.module';
+import { SelectModule } from 'ng2-select';
+
+
 
 
 @NgModule({
@@ -21,6 +24,8 @@ import { LayoutModule } from '../../shared/layout.module';
         ReactiveFormsModule,
     SharedModule,
     LayoutModule,
+    SelectModule,
+
   ]
 })
 export class VentesModule { }
