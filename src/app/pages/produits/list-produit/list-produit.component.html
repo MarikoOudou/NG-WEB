@@ -41,8 +41,8 @@
           <card>
 
             <div class="col-md-6 form-group">
-              <label class="control-label">Libelle</label>
-              <input type="text" ngModel name="libelle" class="form-control">
+              <label class="control-label">Libellé</label>
+              <input type="text" ngModel name="libelle" class="form-control" placeholder="Ex:Terrain avec ACD prêt pour habitation">
             </div>
 
 
@@ -54,34 +54,34 @@
             <div class="col-md-6 form-group">
               <label class="control-label">Type</label>
               <select name="types" ngModel id="select1" class="form-control">
-                <option value="maison">Maison</option>
                 <option value="terrain">Terrain</option>
+                <option value="maison">Maison</option>
               </select>
             </div>
 
             <div class="col-md-6 form-group">
-              <label class="control-label">Localité</label>
-              <input type="text" name="localite" ngModel class="form-control" placeholder="Localité">
+              <label class="control-label">Ville, Localité</label>
+              <input type="text" name="localite" ngModel class="form-control" placeholder="Ex:Abidjan">
             </div>
 
             <div class="col-md-6 form-group">
-              <label class="control-label">Surface</label>
-              <input type="number" min="0" name="surface" ngModel class="form-control" placeholder="Surface">
+              <label class="control-label">Taille</label>
+              <input type="number" min="0" name="surface" ngModel class="form-control" placeholder="Ex:500">
             </div>
 
             <div class="col-md-6 form-group">
               <label class="control-label">Prix</label>
-              <input type="number" min="0" name="prix" ngModel class="form-control" placeholder="Prix">
+              <input type="number" min="0" name="prix" ngModel class="form-control" placeholder="Ex:10 000 000">
             </div>
 
             <div class="col-md-6 form-group">
-              <label class="control-label">Localisation Long</label>
-              <input type="text" name="localisation_long" ngModel class="form-control" placeholder="Localisation Long">
+              <label class="control-label">Localisation GPS</label>
+              <input type="text" name="localisation_long" ngModel class="form-control" placeholder="Ex:5.3912177842996565, -3.9738293845357937">
             </div>
 
             <div class="col-md-6 form-group">
-              <label class="control-label">Localisation Lat</label>
-              <input type="text" name="localisation_lat" ngModel class="form-control" placeholder="Localisation Lat">
+              <label class="control-label">Localisation</label>
+              <input type="text" name="localisation_lat" ngModel class="form-control"  placeholder="Ne rien inscrire ici" >
             </div>
 
             <div class="col-md-12 form-group">

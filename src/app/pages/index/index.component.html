@@ -3,7 +3,7 @@
     <div class="card card-block tip-card">
       <div class="tip-msg">
         <h2>Total de la vente du jour</h2>
-        <h3 style="font: bold;">{{(dataState?.somme_vente_jour || 0) + " CFA"}}</h3>
+        <h3 style="font: bold;">{{(dataState?.somme_vente_jour || 0) + " FCFA"}}</h3>
       </div>
       <button class="tip-ico tip-ico-primary">
         <i class="fa fa-cog fa-fw"></i>
@@ -13,7 +13,7 @@
   <div class="col-md-6 animated fadeIn">
     <div class="card card-block tip-card">
       <div class="tip-msg">
-        <h2>Total des produits disponible </h2>
+        <h2>Total des produits disponibles </h2>
         <h3 style="font: bold;">{{dataState?.nb_produit || 0}}</h3>
       </div>
       <button class="tip-ico tip-ico-info">

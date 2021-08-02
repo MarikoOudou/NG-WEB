@@ -23,7 +23,7 @@ export let MENU_ITEM = [
   {
     path: 'blogs',
     title: 'Blog',
-    icon: 'cogs',
+    icon: 'book',
     children: [
         {
             path: 'category',
@@ -39,7 +39,7 @@ export let MENU_ITEM = [
 {
   path: 'mes-pages',
   title: 'Mes pages',
-  icon: 'cogs',
+  icon: 'window-maximize',
   children: [
       {
           path: 'accueil',
@@ -55,7 +55,7 @@ export let MENU_ITEM = [
 {
   path: 'produits',
   title: 'Produits',
-  icon: 'cogs',
+  icon: 'archive',
   /*children: [
       {
           path: 'maisons',

@@ -2,21 +2,21 @@
   <div class="logo">
     <img src="assets/images/logoInt.png" alt="">
   </div>
-  <h3 class="form-label">Bienvenu sur l'Espace Administrateur</h3>
-  <span class="form-label">Connectez vous pour continuer</span>
+  <h3 class="form-label">Bienvenue sur l'espace administrateur</h3>
+  <span class="form-label">Connectez-vous pour continuer</span>
   <form #f="ngForm" (ngSubmit)="onSubmit(f)">
     <div class="form-group">
       <div class="input-group">
         <span class="input-group-addon addon-left" id="username">
           <i class="fa fa-user fa-fw"></i>
         </span>
-        <input class="form-control with-primary-addon" name="email" ngModel placeholder="E-mail utilisateur" type="email">
+        <input class="form-control with-primary-addon" name="email" ngModel placeholder="Email utilisateur" type="email">
       </div>
       <div class="input-group">
         <span class="input-group-addon addon-left" id="password">
           <i class="fa fa-lock fa-fw"></i>
         </span>
-        <input class="form-control with-primary-addon" name="password" ngModel placeholder="mot de passe" type="password">
+        <input class="form-control with-primary-addon" name="password" ngModel placeholder="Mot de passe" type="password">
       </div>
       <button routerLink="pages" class="btn btn-lg btn-primary">Connexion</button>
       <!--<a href="" class="btn btn-link">Register Now. →</a>-->

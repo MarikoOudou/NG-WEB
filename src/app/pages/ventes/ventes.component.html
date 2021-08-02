@@ -130,7 +130,7 @@
           required>
 
         <div *ngIf="items.length > 0">
-        <label class="control-label">Produit Disponible</label>
+        <label class="control-label">Produits disponibles</label>
           <ng-select ngModel name="produit" [allowClear]="true" [items]="items" (data)="refreshValue($event)" (selected)="selected($event)"
             (removed)="removed($event)" (typed)="typed($event)" placeholder="liste des Produits Disponible">
 
